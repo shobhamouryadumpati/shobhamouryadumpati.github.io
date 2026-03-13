@@ -5,41 +5,112 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shobha Mourya Dumpati</title>
 
-  <!-- Google Font -->
+  <!-- JetBrains Mono -->
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
 
+  <!-- CesiumJS (for 3D globe) -->
+  <link rel="stylesheet" href="https://cesium.com/downloads/cesiumjs/releases/1.120/Build/Cesium/Widgets/widgets.css">
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.120/Build/Cesium/Cesium.js"></script>
+
   <style>
-    /* ---------- GLOBAL ---------- */
+    :root {
+      --bg: #05070b;
+      --panel: #0b1018;
+      --accent: #4cc2ff;
+      --accent-soft: rgba(76, 194, 255, 0.4);
+      --text-main: #d0d7de;
+      --text-muted: #8b949e;
+      --border: #1f2a33;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      padding: 0;
       font-family: "JetBrains Mono", monospace;
-      background: #0a0f14;
-      color: #d0d7de;
-      line-height: 1.7;
+      background: var(--bg);
+      color: var(--text-main);
       overflow-x: hidden;
     }
 
-    .container {
-      max-width: 1000px;
-      margin: 60px auto;
-      padding: 0 20px;
+    /* Layout */
+    .layout {
+      display: flex;
+      min-height: 100vh;
     }
 
-    h1, h2 {
-      font-weight: 600;
-      color: #4cc2ff;
-      text-shadow: 0 0 10px rgba(76, 194, 255, 0.4);
+    /* Sidebar */
+    .sidebar {
+      width: 240px;
+      background: #05070d;
+      border-right: 1px solid var(--border);
+      padding: 20px;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      z-index: 10;
+    }
+
+    .sidebar h1 {
+      font-size: 20px;
+      color: var(--accent);
+      margin: 0 0 5px;
+    }
+
+    .sidebar .role {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .nav-links a {
+      display: block;
+      margin: 10px 0;
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 14px;
+      transition: 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      text-shadow: 0 0 8px var(--accent-soft);
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Main content */
+    .main {
+      margin-left: 240px;
+      padding: 30px 20px 60px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .content {
+      max-width: 1000px;
+      margin: 0 auto;
     }
 
     h2 {
-      margin-top: 60px;
-      border-bottom: 1px solid #1f2a33;
-      padding-bottom: 8px;
+      color: var(--accent);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 6px;
+      margin-top: 50px;
+      text-shadow: 0 0 10px var(--accent-soft);
     }
 
     a {
-      color: #4cc2ff;
+      color: var(--accent);
       text-decoration: none;
       transition: 0.2s;
     }
@@ -49,11 +120,54 @@
       text-shadow: 0 0 8px rgba(140, 230, 255, 0.6);
     }
 
-    /* ---------- HEADER ---------- */
-    .header {
-      text-align: center;
-      margin-bottom: 60px;
-      animation: fadeIn 1.2s ease;
+    /* Background: stars + grid */
+    .bg-stars, .bg-grid {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .bg-stars {
+      background:
+        radial-gradient(circle at 10% 20%, rgba(255,255,255,0.15) 0, transparent 40%),
+        radial-gradient(circle at 80% 10%, rgba(255,255,255,0.08) 0, transparent 40%),
+        radial-gradient(circle at 50% 80%, rgba(255,255,255,0.1) 0, transparent 45%);
+      opacity: 0.25;
+      animation: twinkle 8s infinite alternate;
+    }
+
+    .bg-grid {
+      background-image:
+        linear-gradient(rgba(76,194,255,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(76,194,255,0.08) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.15;
+      transform: perspective(600px) rotateX(70deg);
+      transform-origin: top;
+      top: 40%;
+    }
+
+    @keyframes twinkle {
+      from { opacity: 0.15; }
+      to { opacity: 0.35; }
+    }
+
+    /* Header / terminal intro */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .hero-left {
+      flex: 1 1 260px;
+    }
+
+    .hero-right {
+      flex: 1 1 260px;
     }
 
     .profile {
@@ -61,134 +175,401 @@
       height: 170px;
       border-radius: 50%;
       object-fit: cover;
-      border: 3px solid #1f2a33;
-      box-shadow: 0 0 20px rgba(76, 194, 255, 0.3);
-      margin-bottom: 20px;
+      border: 3px solid var(--border);
+      box-shadow: 0 0 20px var(--accent-soft);
+      display: block;
+      margin-bottom: 15px;
     }
 
     .tagline {
-      color: #8b949e;
-      font-size: 18px;
-      margin-top: -10px;
+      color: var(--text-muted);
+      font-size: 14px;
     }
 
-    /* ---------- LINKS ---------- */
     .links a {
-      margin: 0 15px;
-      font-size: 16px;
+      margin-right: 12px;
+      font-size: 13px;
     }
 
-    /* ---------- CARD ---------- */
+    .terminal {
+      background: #05070d;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      padding: 15px 18px;
+      box-shadow: 0 0 18px rgba(0,0,0,0.6);
+      font-size: 13px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .terminal-header {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+    }
+
+    .dot.red { background: #ff5f57; }
+    .dot.yellow { background: #febc2e; }
+    .dot.green { background: #28c840; }
+
+    .terminal-body {
+      color: #9cdcfe;
+      white-space: pre-wrap;
+      min-height: 80px;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      background: #9cdcfe;
+      margin-left: 2px;
+      animation: blink 1s step-start infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    /* Cards */
     .card {
-      background: #111820;
-      padding: 25px 30px;
+      background: var(--panel);
+      padding: 20px 24px;
       border-radius: 12px;
-      border: 1px solid #1f2a33;
-      margin-top: 25px;
-      box-shadow: 0 0 20px rgba(76, 194, 255, 0.08);
+      border: 1px solid var(--border);
+      margin-top: 18px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
       transition: 0.3s;
     }
 
     .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 0 25px rgba(76, 194, 255, 0.15);
+      transform: translateY(-3px);
+      box-shadow: 0 0 24px rgba(76, 194, 255, 0.18);
     }
 
     ul {
       padding-left: 20px;
     }
 
-    /* ---------- ANIMATIONS ---------- */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    /* Project cards with icons */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+      margin-top: 18px;
     }
 
-    /* ---------- FOOTER ---------- */
+    .project-card {
+      background: var(--panel);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 16px 18px;
+      box-shadow: 0 0 18px rgba(0,0,0,0.5);
+      transition: 0.3s;
+      font-size: 13px;
+    }
+
+    .project-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 24px rgba(76, 194, 255, 0.18);
+    }
+
+    .project-icon {
+      font-size: 20px;
+      margin-bottom: 6px;
+    }
+
+    .project-title {
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--accent);
+    }
+
+    /* Globe section */
+    #globeContainer {
+      width: 100%;
+      height: 350px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin-top: 18px;
+    }
+
     footer {
+      margin-top: 50px;
+      font-size: 11px;
+      color: var(--text-muted);
       text-align: center;
-      margin-top: 60px;
-      color: #6b7a88;
-      font-size: 14px;
+    }
+
+    /* Responsive */
+    @media (max-width: 800px) {
+      .sidebar {
+        position: static;
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .main {
+        margin-left: 0;
+        padding-top: 20px;
+      }
+      .nav-links {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .sidebar-footer {
+        display: none;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <div class="container">
+  <!-- Background layers -->
+  <div class="bg-stars"></div>
+  <div class="bg-grid"></div>
 
-    <!-- HEADER -->
-    <div class="header">
-      <img src="profile.jpeg" class="profile" alt="Profile photo">
-
-      <h1>Shobha Mourya Dumpati</h1>
-      <p class="tagline">Remote Sensing • GIS • Earth Observation</p>
-
-      <div class="links">
-        <a href="https://www.linkedin.com/in/shobha-mourya-dumpati-99794b279">LinkedIn</a>
-        <a href="https://scholar.google.co.uk/citations?user=u40c4-gAAAAJ&hl=en&authuser=1">Google Scholar</a>
-        <a href="https://orcid.org/0009-0006-7086-7058">ORCID</a>
-        <a href="https://github.com/shobhamouryadumpati">GitHub</a>
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div>
+        <h1>Shobha M. Dumpati</h1>
+        <div class="role">Hydrographic Data • GIS • Remote Sensing</div>
       </div>
-    </div>
 
-    <!-- ABOUT -->
-    <h2>About Me</h2>
-    <div class="card">
-      <p>
-        I am a Hydrographic Data Processor at Fugro UK, where I am involved in Marine Site Characterisation.
-        On a personal basis, I am an Independent Researcher specializing in GIS, Remote Sensing, and Earth Observation.
-        My research interests include Remote Sensing, Geospatial Analysis, and Earth Observation projects.
-        Based in Aberdeen, Scotland, I am a Fellow of the Geological Society (FGS), Fellow of the Royal Geographical Society (FRGS),
-        Accredited Spatial Scientist, and UAS/UAV Pilot.
-      </p>
-    </div>
+      <nav class="nav-links">
+        <a href="#home">/home</a>
+        <a href="#about">/about</a>
+        <a href="#skills">/skills</a>
+        <a href="#projects">/projects</a>
+        <a href="#globe">/globe</a>
+        <a href="#contact">/contact</a>
+      </nav>
 
-    <!-- SKILLS -->
-    <h2>Skills</h2>
-    <div class="card">
-      <ul>
-        <li>Remote Sensing</li>
-        <li>GIS & Spatial Analysis</li>
-        <li>Earth Observation</li>
-        <li>Python / Geospatial Tools</li>
-        <li>Machine Learning</li>
-        <li>Hydrographic Mapping & Charting</li>
-      </ul>
-    </div>
+      <div class="sidebar-footer">
+        GIS • Remote Sensing • Earth Observation  
+        Aberdeen, Scotland
+      </div>
+    </aside>
 
-    <!-- PROJECTS -->
-    <h2>Projects</h2>
-    <div class="card">
-      <ul>
-        <li>
-          <strong>Multi-Sensor Fusion of Sentinel-2 Imagery and ICESat-2 Satellite Laser Bathymetry for Benthic Habitat Classification</strong> —
-          Developed a method to integrate Sentinel-2 imagery and ICESat-2 bathymetry for accurate benthic habitat mapping in coral reef areas.
-        </li>
-        <li>
-          <strong>Validation of ICESat-2 ATL13 Water Surface Elevation on Small High-Latitude Rivers</strong> —
-          Validated ICESat-2 water surface elevation data against field measurements to assess accuracy in small, high-latitude rivers.
-        </li>
-        <li>
-          <strong>Inverting InSAR Observations to Estimate Basal Melt Rates</strong> —
-          Applied InSAR inversion techniques to estimate basal melt rates of ice sheets using a grounding-line response function framework.
-        </li>
-      </ul>
-    </div>
+    <!-- Main content -->
+    <main class="main">
+      <div class="content">
 
-    <!-- CONTACT -->
-    <h2>Contact</h2>
-    <div class="card">
-      <p>Email: <strong>shobha.dumpati@outlook.com</strong></p>
-      <p>Location: <strong>Aberdeen, United Kingdom</strong></p>
-    </div>
+        <!-- HOME / HERO -->
+        <section id="home" class="hero">
+          <div class="hero-left">
+            <img src="profile.jpeg" alt="Profile photo" class="profile">
+            <div class="tagline">
+              Remote Sensing • GIS • Earth Observation  
+              Hydrographic Data Processor @ Fugro UK
+            </div>
+            <div class="links" style="margin-top:10px;">
+              <a href="https://www.linkedin.com/in/shobha-mourya-dumpati-99794b279">LinkedIn</a>
+              <a href="https://scholar.google.co.uk/citations?user=u40c4-gAAAAJ&hl=en&authuser=1">Scholar</a>
+              <a href="https://orcid.org/0009-0006-7086-7058">ORCID</a>
+              <a href="https://github.com/shobhamouryadumpati">GitHub</a>
+            </div>
+          </div>
 
-    <footer>
-      © 2025 Shobha Mourya Dumpati — Built with HTML & GitHub Pages
-    </footer>
+          <div class="hero-right">
+            <div class="terminal">
+              <div class="terminal-header">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <div class="terminal-body" id="terminalText">
+                $ whoami  
+                $ loading profile...
+              </div>
+            </div>
+          </div>
+        </section>
 
+        <!-- ABOUT -->
+        <section id="about">
+          <h2>About Me</h2>
+          <div class="card">
+            <p>
+              I am a Hydrographic Data Processor at Fugro UK, where I am involved in Marine Site Characterisation.
+              On a personal basis, I am an Independent Researcher specializing in GIS, Remote Sensing, and Earth Observation.
+              My research interests include Remote Sensing, Geospatial Analysis, and Earth Observation projects.
+              Based in Aberdeen, Scotland, I am a Fellow of the Geological Society (FGS), Fellow of the Royal Geographical Society (FRGS),
+              Accredited Spatial Scientist, and UAS/UAV Pilot.
+            </p>
+          </div>
+        </section>
+
+        <!-- SKILLS -->
+        <section id="skills">
+          <h2>Skills</h2>
+          <div class="card">
+            <ul>
+              <li>Remote Sensing</li>
+              <li>GIS & Spatial Analysis</li>
+              <li>Earth Observation</li>
+              <li>Python / Geospatial Tools</li>
+              <li>Machine Learning</li>
+              <li>Hydrographic Mapping & Charting</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- PROJECTS -->
+        <section id="projects">
+          <h2>Projects</h2>
+          <div class="projects-grid">
+            <div class="project-card">
+              <div class="project-icon">🌊</div>
+              <div class="project-title">Multi-Sensor Fusion for Benthic Habitat Classification</div>
+              <div>
+                Developed a method to integrate Sentinel-2 imagery and ICESat-2 satellite laser bathymetry
+                for accurate benthic habitat mapping in coral reef areas (Key Largo, Florida Keys).
+              </div>
+            </div>
+
+            <div class="project-card">
+              <div class="project-icon">🏞️</div>
+              <div class="project-title">ICESat-2 ATL13 Validation on High-Latitude Rivers</div>
+              <div>
+                Validated ICESat-2 ATL13 water surface elevation data against field measurements
+                for small, high-latitude rivers (River Dee & River Don, Aberdeenshire, Scotland).
+              </div>
+            </div>
+
+            <div class="project-card">
+              <div class="project-icon">🧊</div>
+              <div class="project-title">InSAR Inversion for Basal Melt Rates</div>
+              <div>
+                Applied InSAR inversion techniques to estimate basal melt rates of ice sheets
+                using a grounding-line response function framework.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- GLOBE -->
+        <section id="globe">
+          <h2>3D Globe</h2>
+          <div class="card">
+            <p style="margin-top:0;">
+              Experimental 3D globe using CesiumJS.  
+              You can later add layers, points, or paths for your projects.
+            </p>
+            <div id="globeContainer"></div>
+          </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact">
+          <h2>Contact</h2>
+          <div class="card">
+            <p>Email: <strong>shobha.dumpati@outlook.com</strong></p>
+            <p>Location: <strong>Aberdeen, United Kingdom</strong></p>
+          </div>
+        </section>
+
+        <footer>
+          © 2025 Shobha Mourya Dumpati — GIS • Remote Sensing • Earth Observation
+        </footer>
+
+      </div>
+    </main>
   </div>
+
+  <script>
+    // ---------- Terminal typing effect ----------
+    const terminalLines = [
+      "$ whoami",
+      "shobha.dumpati",
+      "",
+      "$ focus --domains \"Hydrography, GIS, Remote Sensing, Earth Observation\"",
+      "$ location --set \"Aberdeen, Scotland\"",
+      "$ status --now \"Processing marine data & exploring the planet from space.\""
+    ];
+
+    const terminalElement = document.getElementById("terminalText");
+    let lineIndex = 0;
+    let charIndex = 0;
+    let currentLine = "";
+    let isNewLine = true;
+
+    function typeTerminal() {
+      if (lineIndex >= terminalLines.length) {
+        terminalElement.innerHTML = terminalLines.join("\n") + "\n$ <span class='cursor'></span>";
+        return;
+      }
+
+      if (isNewLine) {
+        currentLine = terminalLines[lineIndex];
+        isNewLine = false;
+        charIndex = 0;
+      }
+
+      const visibleText = currentLine.slice(0, charIndex);
+      const previousLines = terminalLines.slice(0, lineIndex).join("\n");
+      terminalElement.innerHTML =
+        (previousLines ? previousLines + "\n" : "") +
+        visibleText +
+        "<span class='cursor'></span>";
+
+      if (charIndex < currentLine.length) {
+        charIndex++;
+        setTimeout(typeTerminal, 35);
+      } else {
+        lineIndex++;
+        isNewLine = true;
+        setTimeout(typeTerminal, 300);
+      }
+    }
+
+    typeTerminal();
+
+    // ---------- CesiumJS basic globe ----------
+    // NOTE: You need a Cesium ion access token from cesium.com
+    // Replace "YOUR_CESIUM_ION_TOKEN_HERE" with your real token.
+    try {
+      Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxYmVmNzNlOS0xZDY1LTQ5ZTUtYTg3ZC03ODg3NzljN2VmMmQiLCJpZCI6NDAzMjc5LCJpYXQiOjE3NzM0MzY1ODh9.j3g5qVlcZTNGARz8WAzyS_eY_hHjA19BlqeXLjIcA_4";
+
+      const viewer = new Cesium.Viewer("globeContainer", {
+        timeline: false,
+        animation: false,
+        baseLayerPicker: true,
+        geocoder: false,
+        sceneModePicker: false,
+        navigationHelpButton: false,
+        homeButton: true
+      });
+
+      // Simple camera view over Earth
+      viewer.scene.camera.setView({
+        destination: Cesium.Cartesian3.fromDegrees(-3.0, 57.1, 2000000.0) // Roughly around Scotland
+      });
+    } catch (e) {
+      console.warn("CesiumJS failed to load or token missing:", e);
+      const globeDiv = document.getElementById("globeContainer");
+      if (globeDiv) {
+        globeDiv.innerHTML = "3D globe placeholder — add a valid Cesium ion token to enable.";
+        globeDiv.style.display = "flex";
+        globeDiv.style.alignItems = "center";
+        globeDiv.style.justifyContent = "center";
+        globeDiv.style.color = "#8b949e";
+        globeDiv.style.fontSize = "13px";
+      }
+    }
+  </script>
 
 </body>
 </html>
