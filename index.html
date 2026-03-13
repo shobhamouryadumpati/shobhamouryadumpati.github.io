@@ -345,7 +345,7 @@
     <!-- Sidebar -->
     <aside class="sidebar">
       <div>
-        <h1>Shobha M. Dumpati</h1>
+        <h1>Shobha Mourya Dumpati</h1>
         <div class="role">Hydrography • GIS • Remote Sensing</div>
       </div>
 
@@ -554,7 +554,14 @@
         navigationHelpButton: false,
         homeButton: true
       });
-
+// Smooth, controlled zoom
+viewer.scene.screenSpaceCameraController.minimumZoomDistance = 500000;
+viewer.scene.screenSpaceCameraController.maximumZoomDistance = 20000000;
+viewer.scene.screenSpaceCameraController.zoomEventTypes = [
+  Cesium.CameraEventType.WHEEL,
+  Cesium.CameraEventType.PINCH
+];
+viewer.scene.screenSpaceCameraController._zoomFactor = 2.0;
       viewer.scene.camera.setView({
         destination: Cesium.Cartesian3.fromDegrees(-3.0, 57.1, 2000000.0)
       });
