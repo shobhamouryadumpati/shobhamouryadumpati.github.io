@@ -184,6 +184,7 @@
     .tagline {
       color: var(--text-muted);
       font-size: 14px;
+      line-height: 1.6;
     }
 
     .links a {
@@ -345,7 +346,7 @@
     <aside class="sidebar">
       <div>
         <h1>Shobha M. Dumpati</h1>
-        <div class="role">Hydrographic Data • GIS • Remote Sensing</div>
+        <div class="role">Hydrography • GIS • Remote Sensing</div>
       </div>
 
       <nav class="nav-links">
@@ -358,7 +359,6 @@
       </nav>
 
       <div class="sidebar-footer">
-        GIS • Remote Sensing • Earth Observation  
         Aberdeen, Scotland
       </div>
     </aside>
@@ -371,10 +371,13 @@
         <section id="home" class="hero">
           <div class="hero-left">
             <img src="profile.jpeg" alt="Profile photo" class="profile">
+
             <div class="tagline">
-              Remote Sensing • GIS • Earth Observation  
-              Hydrographic Data Processor @ Fugro UK
+              Remote Sensing • GIS • Earth Observation<br>
+              Hydrographic Data Processor @ Fugro UK<br>
+              Independent Researcher
             </div>
+
             <div class="links" style="margin-top:10px;">
               <a href="https://www.linkedin.com/in/shobha-mourya-dumpati-99794b279">LinkedIn</a>
               <a href="https://scholar.google.co.uk/citations?user=u40c4-gAAAAJ&hl=en&authuser=1">Scholar</a>
@@ -391,8 +394,7 @@
                 <span class="dot green"></span>
               </div>
               <div class="terminal-body" id="terminalText">
-                $ whoami  
-                $ loading profile...
+                $ initializing...
               </div>
             </div>
           </div>
@@ -465,8 +467,8 @@
           <h2>3D Globe</h2>
           <div class="card">
             <p style="margin-top:0;">
-              Experimental 3D globe using CesiumJS.  
-              You can later add layers, points, or paths for your projects.
+              Experimental 3D globe using CesiumJS.<br>
+              Add your Cesium ion token to enable the globe.
             </p>
             <div id="globeContainer"></div>
           </div>
@@ -495,9 +497,10 @@
       "$ whoami",
       "shobha.dumpati",
       "",
-      "$ focus --domains \"Hydrography, GIS, Remote Sensing, Earth Observation\"",
-      "$ location --set \"Aberdeen, Scotland\"",
-      "$ status --now \"Processing marine data & exploring the planet from space.\""
+      "$ load --modules \"Hydrography, GIS, Remote Sensing, Earth Observation\"",
+      "$ set-location \"Aberdeen, Scotland\"",
+      "$ status --now \"Processing marine data & exploring the planet from space.\"",
+      "$ ready"
     ];
 
     const terminalElement = document.getElementById("terminalText");
@@ -538,10 +541,9 @@
     typeTerminal();
 
     // ---------- CesiumJS basic globe ----------
-    // NOTE: You need a Cesium ion access token from cesium.com
-    // Replace "YOUR_CESIUM_ION_TOKEN_HERE" with your real token.
     try {
-      Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxYmVmNzNlOS0xZDY1LTQ5ZTUtYTg3ZC03ODg3NzljN2VmMmQiLCJpZCI6NDAzMjc5LCJpYXQiOjE3NzM0MzY1ODh9.j3g5qVlcZTNGARz8WAzyS_eY_hHjA19BlqeXLjIcA_4";
+      // Replace this with your real Cesium ion token
+      Cesium.Ion.defaultAccessToken = "YOUR_CESIUM_ION_TOKEN_HERE";
 
       const viewer = new Cesium.Viewer("globeContainer", {
         timeline: false,
@@ -553,9 +555,8 @@
         homeButton: true
       });
 
-      // Simple camera view over Earth
       viewer.scene.camera.setView({
-        destination: Cesium.Cartesian3.fromDegrees(-3.0, 57.1, 2000000.0) // Roughly around Scotland
+        destination: Cesium.Cartesian3.fromDegrees(-3.0, 57.1, 2000000.0)
       });
     } catch (e) {
       console.warn("CesiumJS failed to load or token missing:", e);
