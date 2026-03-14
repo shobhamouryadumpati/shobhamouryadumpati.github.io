@@ -68,6 +68,11 @@
       color: var(--text-muted);
     }
 
+    /* Desktop nav always visible */
+    .nav-links {
+      display: block;
+    }
+
     .nav-links a {
       display: block;
       margin: 10px 0;
@@ -556,25 +561,106 @@
     </main>
   </div>
 
+  <!-- JAVASCRIPT -->
   <script>
-    /* Hamburger toggle */
-    function toggleMenu() {
-      const nav = document.querySelector('.nav-links');
-      nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
-    }
+/* Hamburger toggle */
+function toggleMenu() {
+  const nav = document.querySelector('.nav-links');
+  const isOpen = nav.style.display === 'flex';
+  nav.style.display = isOpen ? 'none' : 'flex';
+}
 
-    /* Terminal typing effect */
-    const terminalLines = [
-      "$ whoami",
-      "shobha.dumpati",
-      "",
-      "$ load --modules \"Hydrography, GIS, Remote Sensing, Earth Observation\"",
-      "$ set-location \"Aberdeen, Scotland\"",
-      "$ status --now \"Processing marine data & exploring the planet from space.\"",
-      "$ ready"
-    ];
+/* Terminal typing effect */
+const terminalLines = [
+  "$ whoami",
+  "shobha.dumpati",
+  "",
+  "$ load --modules \"Hydrography, GIS, Remote Sensing, Earth Observation\"",
+  "$ set-location \"Aberdeen, Scotland\"",
+  "$ status --now \"Processing marine data & exploring the planet from space.\"",
+  "$ ready"
+];
 
-    const terminalElement = document.getElementById("terminalText");
-    let lineIndex = 0;
-    let charIndex = 0;
-    let currentLine = "";
+const terminalElement = document.getElementById("terminalText");
+let lineIndex = 0;
+let charIndex = 0;
+let currentLine = "";
+let isNewLine = true;
+
+function typeTerminal() {
+  if (lineIndex >= terminalLines.length) {
+    terminalElement.innerHTML = terminalLines.join("\n") + "\n$ <span class='cursor'></span>";
+    return;
+  }
+
+  if (isNewLine) {
+    currentLine = terminalLines[lineIndex];
+    isNewLine = false;
+    charIndex = 0;
+  }
+
+  const visibleText = currentLine.slice(0, charIndex);
+  const previousLines = terminalLines.slice(0, lineIndex).join("\n");
+  terminalElement.innerHTML =
+    (previousLines ? previousLines + "\n" : "") +
+    visibleText +
+    "<span class='cursor'></span>";
+
+  if (charIndex < currentLine.length) {
+    charIndex++;
+    setTimeout(typeTerminal, 35);
+  } else {
+    lineIndex++;
+    isNewLine = true;
+    setTimeout(typeTerminal, 300);
+  }
+}
+
+typeTerminal();
+
+/* Cesium Globe */
+try {
+  Cesium.Ion.defaultAccessToken = "YOUR_CESIUM_ION_TOKEN_HERE";
+
+  const viewer = new Cesium.Viewer("globeContainer", {
+    timeline: false,
+    animation: false,
+    baseLayerPicker: true,
+    geocoder: false,
+    sceneModePicker: false,
+    navigationHelpButton: false,
+    homeButton: true
+  });
+
+  /* Correct camera distance */
+  viewer.scene.camera.setView({
+    destination: Cesium.Cartesian3.fromDegrees(-3.0, 57.1, 350000.0)
+  });
+
+  /* Smooth zoom */
+  const controller = viewer.scene.screenSpaceCameraController;
+  controller.minimumZoomDistance = 100000;     // 100 km
+  controller.maximumZoomDistance = 8000000;    // 8,000 km
+  controller.zoomEventTypes = [
+    Cesium.CameraEventType.WHEEL,
+    Cesium.CameraEventType.PINCH
+  ];
+  controller.inertiaZoom = 0.2;
+  controller._zoomFactor = 1.5;
+
+} catch (e) {
+  console.warn("CesiumJS failed to load or token missing:", e);
+  const globeDiv = document.getElementById("globeContainer");
+  if (globeDiv) {
+    globeDiv.innerHTML = "3D globe placeholder — add a valid Cesium ion token to enable.";
+    globeDiv.style.display = "flex";
+    globeDiv.style.alignItems = "center";
+    globeDiv.style.justifyContent = "center";
+    globeDiv.style.color = "#8b949e";
+    globeDiv.style.fontSize = "13px";
+  }
+}
+</script>
+
+</body>
+</html>
