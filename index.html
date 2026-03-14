@@ -310,6 +310,21 @@
      vertical-align: middle;
      }
 
+    .site-title {
+     display: flex;
+     align-items: center;
+     }
+
+    .name-block {
+     display: inline-block;
+     line-height: 1.2;
+     }
+
+    .last {
+     display: block;
+     text-align: right;
+     }
+
     /* MOBILE VERSION */
     @media (max-width: 800px) {
 
@@ -396,11 +411,13 @@
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
-      <h1>
+      <h1 class="site-title">
       <img src="icon.svg" class="site-icon" alt="">
-       Shobha Mourya Dumpati
+      <span class="name-block">
+      <span class="first">Shobha Mourya</span><br>
+      <span class="last">Dumpati</span>
+      </span>
       </h1>
-
 
       <!-- Mobile hamburger -->
       <div class="hamburger" onclick="toggleMenu()">☰</div>
