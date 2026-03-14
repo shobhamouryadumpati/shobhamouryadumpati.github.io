@@ -64,35 +64,45 @@
       color: var(--text-muted);
     }
 
-    /* Desktop nav always visible */
-    .nav-links {
-      display: block;
-    }
+   /* Desktop nav always visible */
+.nav-links {
+  display: block;
+}
 
-    .nav-links a {
-      display: block;
-      margin: 10px 0;
-      color: var(--text-main);
-      text-decoration: none;
-      font-size: 14px;
-      transition: 0.2s;
-    }
+.nav-links a {
+  display: block;
+  margin: 10px 0;
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 14px;
+  transition: 0.2s;
+}
 
-    .nav-links a:hover {
-      color: var(--accent);
-      text-shadow: 0 0 8px var(--accent-soft);
-    }
+.nav-links a:hover {
+  color: var(--accent);
+  text-shadow: 0 0 8px var(--accent-soft);
+}
 
-    .sidebar-footer {
-      margin-top: auto;
-      font-size: 11px;
-      color: var(--text-muted);
-    }
+/* Force social links to match global accent color */
+.links a {
+  color: var(--accent) !important;
+}
 
-    /* Hide hamburger on desktop */
-    .hamburger {
-      display: none;
-    }
+.links a:hover {
+  color: #8fe3ff !important;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* Hide hamburger on desktop */
+.hamburger {
+  display: none;
+}
+
 
     /* Main content */
     .main {
