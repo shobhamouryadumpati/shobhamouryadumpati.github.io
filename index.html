@@ -8,7 +8,7 @@
   <!-- JetBrains Mono -->
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
 
-  <!-- CesiumJS (for 3D globe) -->
+  <!-- CesiumJS -->
   <link rel="stylesheet" href="https://cesium.com/downloads/cesiumjs/releases/1.120/Build/Cesium/Widgets/widgets.css">
   <script src="https://cesium.com/downloads/cesiumjs/releases/1.120/Build/Cesium/Cesium.js"></script>
 
@@ -21,10 +21,6 @@
       --text-main: #d0d7de;
       --text-muted: #8b949e;
       --border: #1f2a33;
-    }
-
-    * {
-      box-sizing: border-box;
     }
 
     body {
@@ -63,7 +59,7 @@
       margin: 0 0 5px;
     }
 
-    .sidebar .role {
+    .role {
       font-size: 12px;
       color: var(--text-muted);
     }
@@ -93,12 +89,15 @@
       color: var(--text-muted);
     }
 
+    /* Hide hamburger on desktop */
+    .hamburger {
+      display: none;
+    }
+
     /* Main content */
     .main {
       margin-left: 240px;
       padding: 30px 20px 60px;
-      position: relative;
-      z-index: 1;
     }
 
     .content {
@@ -114,18 +113,7 @@
       text-shadow: 0 0 10px var(--accent-soft);
     }
 
-    a {
-      color: var(--accent);
-      text-decoration: none;
-      transition: 0.2s;
-    }
-
-    a:hover {
-      color: #8fe3ff;
-      text-shadow: 0 0 8px rgba(140, 230, 255, 0.6);
-    }
-
-    /* Background: stars + grid */
+    /* Background layers */
     .bg-stars, .bg-grid {
       position: fixed;
       inset: 0;
@@ -167,14 +155,6 @@
       margin-top: 10px;
     }
 
-    .hero-left {
-      flex: 1 1 260px;
-    }
-
-    .hero-right {
-      flex: 1 1 260px;
-    }
-
     .profile {
       width: 170px;
       height: 170px;
@@ -182,7 +162,6 @@
       object-fit: cover;
       border: 3px solid var(--border);
       box-shadow: 0 0 20px var(--accent-soft);
-      display: block;
       margin-bottom: 15px;
     }
 
@@ -190,11 +169,6 @@
       color: var(--text-muted);
       font-size: 14px;
       line-height: 1.6;
-    }
-
-    .links a {
-      margin-right: 12px;
-      font-size: 13px;
     }
 
     /* Terminal */
@@ -205,8 +179,7 @@
       padding: 15px 18px;
       box-shadow: 0 0 18px rgba(0,0,0,0.6);
       font-size: 13px;
-      position: relative;
-      overflow: hidden;
+      white-space: pre-wrap;
     }
 
     .terminal-header {
@@ -225,17 +198,10 @@
     .dot.yellow { background: #febc2e; }
     .dot.green { background: #28c840; }
 
-    .terminal-body {
-      color: #9cdcfe;
-      white-space: pre-wrap;
-      min-height: 80px;
-    }
-
     .cursor {
       display: inline-block;
       width: 8px;
       background: #9cdcfe;
-      margin-left: 2px;
       animation: blink 1s step-start infinite;
     }
 
@@ -251,24 +217,13 @@
       border: 1px solid var(--border);
       margin-top: 18px;
       box-shadow: 0 0 20px rgba(0,0,0,0.5);
-      transition: 0.3s;
     }
 
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0 24px rgba(76, 194, 255, 0.18);
-    }
-
-    ul {
-      padding-left: 20px;
-    }
-
-    /* Project cards */
+    /* Projects */
     .projects-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 18px;
-      margin-top: 18px;
     }
 
     .project-card {
@@ -277,24 +232,12 @@
       border: 1px solid var(--border);
       padding: 16px 18px;
       box-shadow: 0 0 18px rgba(0,0,0,0.5);
-      transition: 0.3s;
-      font-size: 13px;
-    }
-
-    .project-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0 24px rgba(76, 194, 255, 0.18);
-    }
-
-    .project-icon {
-      font-size: 20px;
-      margin-bottom: 6px;
     }
 
     .project-title {
+      color: var(--accent);
       font-weight: 600;
       margin-bottom: 6px;
-      color: var(--accent);
     }
 
     /* Globe */
@@ -302,22 +245,15 @@
       width: 100%;
       height: 350px;
       border-radius: 12px;
-      overflow: hidden;
       border: 1px solid var(--border);
       margin-top: 18px;
+      overflow: hidden;
     }
 
-    footer {
-      margin-top: 50px;
-      font-size: 11px;
-      color: var(--text-muted);
-      text-align: center;
-    }
-
-    /* MOBILE OPTIMIZATION */
+    /* MOBILE VERSION */
     @media (max-width: 800px) {
 
-      /* Compact mobile header */
+      /* Sidebar becomes top bar */
       .sidebar {
         position: fixed;
         top: 0;
@@ -329,54 +265,42 @@
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        border-right: none;
         border-bottom: 1px solid var(--border);
         background: #05070d;
-        backdrop-filter: none;
-        z-index: 999;
       }
 
-      .sidebar h1 {
-        font-size: 18px;
-      }
-
-      .sidebar .role {
-        display: none;
-      }
-
-      /* Hamburger */
+      /* Show hamburger only on mobile */
       .hamburger {
+        display: block;
         font-size: 24px;
         cursor: pointer;
         color: var(--accent);
       }
 
-      /* Hide nav by default */
+      /* Hide nav until hamburger clicked */
       .nav-links {
         display: none;
         flex-direction: column;
         width: 100%;
         background: #05070d;
         padding: 10px 0;
-        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        position: absolute;
+        top: 60px;
+        left: 0;
+        z-index: 998;
       }
 
       .nav-links a {
-        font-size: 14px;
-        padding: 8px 16px;
+        padding: 12px 20px;
+        font-size: 15px;
       }
 
-      .sidebar-footer {
-        display: none;
-      }
-
-      /* Main content shifts down */
       .main {
         margin-left: 0;
-        padding-top: 120px;
+        padding-top: 90px;
       }
 
-      /* Hero stacks */
       .hero {
         flex-direction: column;
         text-align: center;
@@ -385,15 +309,6 @@
       .profile {
         width: 140px;
         height: 140px;
-      }
-
-      .terminal {
-        font-size: 12px;
-        padding: 12px 14px;
-      }
-
-      .projects-grid {
-        grid-template-columns: 1fr;
       }
 
       #globeContainer {
@@ -413,12 +328,12 @@
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
-      <div>
-        <h1>Shobha M. Dumpati</h1>
-      </div>
+      <h1>Shobha M. Dumpati</h1>
 
+      <!-- Mobile hamburger -->
       <div class="hamburger" onclick="toggleMenu()">☰</div>
 
+      <!-- Navigation -->
       <nav class="nav-links">
         <a href="#home">/home</a>
         <a href="#about">/about</a>
@@ -440,7 +355,7 @@
         <!-- HERO -->
         <section id="home" class="hero">
           <div class="hero-left">
-            <img src="profile.jpeg" alt="Profile photo" class="profile">
+            <img src="profile.jpeg" class="profile">
 
             <div class="tagline">
               Remote Sensing • GIS • Earth Observation<br>
@@ -463,9 +378,7 @@
                 <span class="dot yellow"></span>
                 <span class="dot green"></span>
               </div>
-              <div class="terminal-body" id="terminalText">
-                $ initializing...
-              </div>
+              <div id="terminalText">$ initializing...</div>
             </div>
           </div>
         </section>
@@ -504,30 +417,19 @@
           <h2>Projects</h2>
           <div class="projects-grid">
             <div class="project-card">
-              <div class="project-icon">🌊</div>
-              <div class="project-title">Multi-Sensor Fusion for Benthic Habitat Classification</div>
-              <div>
-                Developed a method to integrate Sentinel-2 imagery and ICESat-2 satellite laser bathymetry
-                for accurate benthic habitat mapping in coral reef areas (Key Largo, Florida Keys).
-              </div>
+              <div class="project-title">🌊 Multi-Sensor Fusion for Benthic Habitat Classification</div>
+              Developed a method to integrate Sentinel-2 imagery and ICESat-2 satellite laser bathymetry
+              for accurate benthic habitat mapping in coral reef areas.
             </div>
 
             <div class="project-card">
-              <div class="project-icon">🏞️</div>
-              <div class="project-title">ICESat-2 ATL13 Validation on High-Latitude Rivers</div>
-              <div>
-                Validated ICESat-2 ATL13 water surface elevation data against field measurements
-                for small, high-latitude rivers (River Dee & River Don, Aberdeenshire, Scotland).
-              </div>
+              <div class="project-title">🏞️ ICESat-2 ATL13 Validation</div>
+              Validated ICESat-2 ATL13 water surface elevation data for high-latitude rivers in Scotland.
             </div>
 
             <div class="project-card">
-              <div class="project-icon">🧊</div>
-              <div class="project-title">InSAR Inversion for Basal Melt Rates</div>
-              <div>
-                Applied InSAR inversion techniques to estimate basal melt rates of ice sheets
-                using a grounding-line response function framework.
-              </div>
+              <div class="project-title">🧊 InSAR Inversion for Basal Melt Rates</div>
+              Applied InSAR inversion techniques to estimate basal melt rates of ice sheets.
             </div>
           </div>
         </section>
@@ -536,10 +438,7 @@
         <section id="globe">
           <h2>3D Globe</h2>
           <div class="card">
-            <p style="margin-top:0;">
-              Experimental 3D globe using CesiumJS.<br>
-              Add your Cesium ion token to enable the globe.
-            </p>
+            <p>Add your Cesium ion token to enable the interactive globe.</p>
             <div id="globeContainer"></div>
           </div>
         </section>
@@ -563,104 +462,97 @@
 
   <!-- JAVASCRIPT -->
   <script>
-/* Hamburger toggle */
-function toggleMenu() {
-  const nav = document.querySelector('.nav-links');
-  const isOpen = nav.style.display === 'flex';
-  nav.style.display = isOpen ? 'none' : 'flex';
-}
+    /* Hamburger toggle */
+    function toggleMenu() {
+      const nav = document.querySelector('.nav-links');
+      nav.style.display = (nav.style.display === 'flex') ? 'none' : 'flex';
+    }
 
-/* Terminal typing effect */
-const terminalLines = [
-  "$ whoami",
-  "shobha.dumpati",
-  "",
-  "$ load --modules \"Hydrography, GIS, Remote Sensing, Earth Observation\"",
-  "$ set-location \"Aberdeen, Scotland\"",
-  "$ status --now \"Processing marine data & exploring the planet from space.\"",
-  "$ ready"
-];
+    /* Terminal typing effect */
+    const terminalLines = [
+      "$ whoami",
+      "shobha.dumpati",
+      "",
+      "$ load --modules \"Hydrography, GIS, Remote Sensing, Earth Observation\"",
+      "$ set-location \"Aberdeen, Scotland\"",
+      "$ status --now \"Processing marine data & exploring the planet from space.\"",
+      "$ ready"
+    ];
 
-const terminalElement = document.getElementById("terminalText");
-let lineIndex = 0;
-let charIndex = 0;
-let currentLine = "";
-let isNewLine = true;
+    const terminalElement = document.getElementById("terminalText");
+    let lineIndex = 0;
+    let charIndex = 0;
+    let currentLine = "";
+    let isNewLine = true;
 
-function typeTerminal() {
-  if (lineIndex >= terminalLines.length) {
-    terminalElement.innerHTML = terminalLines.join("\n") + "\n$ <span class='cursor'></span>";
-    return;
-  }
+    function typeTerminal() {
+      if (lineIndex >= terminalLines.length) {
+        terminalElement.innerHTML = terminalLines.join("\n") + "\n$ <span class='cursor'></span>";
+        return;
+      }
 
-  if (isNewLine) {
-    currentLine = terminalLines[lineIndex];
-    isNewLine = false;
-    charIndex = 0;
-  }
+      if (isNewLine) {
+        currentLine = terminalLines[lineIndex];
+        isNewLine = false;
+        charIndex = 0;
+      }
 
-  const visibleText = currentLine.slice(0, charIndex);
-  const previousLines = terminalLines.slice(0, lineIndex).join("\n");
-  terminalElement.innerHTML =
-    (previousLines ? previousLines + "\n" : "") +
-    visibleText +
-    "<span class='cursor'></span>";
+      const visibleText = currentLine.slice(0, charIndex);
+      const previousLines = terminalLines.slice(0, lineIndex).join("\n");
+      terminalElement.innerHTML =
+        (previousLines ? previousLines + "\n" : "") +
+        visibleText +
+        "<span class='cursor'></span>";
 
-  if (charIndex < currentLine.length) {
-    charIndex++;
-    setTimeout(typeTerminal, 35);
-  } else {
-    lineIndex++;
-    isNewLine = true;
-    setTimeout(typeTerminal, 300);
-  }
-}
+      if (charIndex < currentLine.length) {
+        charIndex++;
+        setTimeout(typeTerminal, 35);
+      } else {
+        lineIndex++;
+        isNewLine = true;
+        setTimeout(typeTerminal, 300);
+      }
+    }
 
-typeTerminal();
+    typeTerminal();
 
-/* Cesium Globe */
-try {
-  Cesium.Ion.defaultAccessToken = "YOUR_CESIUM_ION_TOKEN_HERE";
+    /* Cesium Globe */
+    try {
+      Cesium.Ion.defaultAccessToken = "YOUR_CESIUM_ION_TOKEN_HERE";
 
-  const viewer = new Cesium.Viewer("globeContainer", {
-    timeline: false,
-    animation: false,
-    baseLayerPicker: true,
-    geocoder: false,
-    sceneModePicker: false,
-    navigationHelpButton: false,
-    homeButton: true
-  });
+      const viewer = new Cesium.Viewer("globeContainer", {
+        timeline: false,
+        animation: false,
+        baseLayerPicker: true,
+        geocoder: false,
+        sceneModePicker: false,
+        navigationHelpButton: false,
+        homeButton: true
+      });
 
-  /* Correct camera distance */
-  viewer.scene.camera.setView({
-    destination: Cesium.Cartesian3.fromDegrees(-3.0, 57.1, 350000.0)
-  });
+      viewer.scene.camera.setView({
+        destination: Cesium.Cartesian3.fromDegrees(-3.0, 57.1, 350000.0)
+      });
 
-  /* Smooth zoom */
-  const controller = viewer.scene.screenSpaceCameraController;
-  controller.minimumZoomDistance = 100000;     // 100 km
-  controller.maximumZoomDistance = 8000000;    // 8,000 km
-  controller.zoomEventTypes = [
-    Cesium.CameraEventType.WHEEL,
-    Cesium.CameraEventType.PINCH
-  ];
-  controller.inertiaZoom = 0.2;
-  controller._zoomFactor = 1.5;
+      const controller = viewer.scene.screenSpaceCameraController;
+      controller.minimumZoomDistance = 100000;
+      controller.maximumZoomDistance = 8000000;
+      controller.zoomEventTypes = [
+        Cesium.CameraEventType.WHEEL,
+        Cesium.CameraEventType.PINCH
+      ];
+      controller.inertiaZoom = 0.2;
+      controller._zoomFactor = 1.5;
 
-} catch (e) {
-  console.warn("CesiumJS failed to load or token missing:", e);
-  const globeDiv = document.getElementById("globeContainer");
-  if (globeDiv) {
-    globeDiv.innerHTML = "3D globe placeholder — add a valid Cesium ion token to enable.";
-    globeDiv.style.display = "flex";
-    globeDiv.style.alignItems = "center";
-    globeDiv.style.justifyContent = "center";
-    globeDiv.style.color = "#8b949e";
-    globeDiv.style.fontSize = "13px";
-  }
-}
-</script>
+    } catch (e) {
+      const globeDiv = document.getElementById("globeContainer");
+      globeDiv.innerHTML = "3D globe placeholder — add a valid Cesium ion token.";
+      globeDiv.style.display = "flex";
+      globeDiv.style.alignItems = "center";
+      globeDiv.style.justifyContent = "center";
+      globeDiv.style.color = "#8b949e";
+    }
+  </script>
 
 </body>
-</html>
+</
