@@ -1,1 +1,670 @@
-<!DOCTYPE html><html lang="en"><head><meta name="copyright" content="Favicon © 2026 Shobha Mourya Dumpati. All rights reserved."><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Shobha Mourya Dumpati</title><link rel="icon" type="image/png" href="sm-brand-icon-2026.png"><link rel="icon" type="image/svg+xml" href="icon.svg"><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cesium.com/downloads/cesiumjs/releases/1.120/Build/Cesium/Widgets/widgets.css"><script src="https://cesium.com/downloads/cesiumjs/releases/1.120/Build/Cesium/Cesium.js"></script><style> :root { --bg: #05070b; --panel: #0b1018; --accent: #4cc2ff; --accent-soft: rgba(76, 194, 255, 0.4); --text-main: #d0d7de; --text-muted: #8b949e; --border: #1f2a33; } body { margin: 0; font-family: "JetBrains Mono", monospace; background: var(--bg); color: var(--text-main); overflow-x: hidden; } .layout { display: flex; min-height: 100vh; } .sidebar { width: 240px; background: #05070d; border-right: 1px solid var(--border); padding: 20px; position: fixed; top: 0; bottom: 0; left: 0; display: flex; flex-direction: column; gap: 20px; z-index: 10; } .sidebar h1 { font-size: 20px; color: var(--accent); margin: 0 0 5px; } .role { font-size: 12px; color: var(--text-muted); } .nav-links { display: block;}.nav-links a { display: block; margin: 10px 0; color: var(--text-main); text-decoration: none; font-size: 14px; transition: 0.2s;}.nav-links a:hover { color: var(--accent); text-shadow: 0 0 8px var(--accent-soft);}.links a { color: var(--accent) !important; text-decoration: none !important; }.links a:hover { color: #8fe3ff !important; text-decoration: none !important; }.sidebar-footer { margin-top: auto; font-size: 11px; color: var(--text-muted);}.hamburger { display: none;} .main { margin-left: 290px; padding: 30px 20px 60px; } .content { max-width: 1000px; margin: 0 auto; } h2 { color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 6px; margin-top: 50px; text-shadow: 0 0 10px var(--accent-soft); } .bg-stars, .bg-grid { position: fixed; inset: 0; pointer-events: none; z-index: 0; } .bg-stars { background: radial-gradient(circle at 10% 20%, rgba(255,255,255,0.15) 0, transparent 40%), radial-gradient(circle at 80% 10%, rgba(255,255,255,0.08) 0, transparent 40%), radial-gradient(circle at 50% 80%, rgba(255,255,255,0.1) 0, transparent 45%); opacity: 0.25; animation: twinkle 8s infinite alternate; } .bg-grid { background-image: linear-gradient(rgba(76,194,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(76,194,255,0.08) 1px, transparent 1px); background-size: 40px 40px; opacity: 0.15; transform: perspective(600px) rotateX(70deg); transform-origin: top; top: 40%; } @keyframes twinkle { from { opacity: 0.15; } to { opacity: 0.35; } } .hero { display: flex; flex-wrap: wrap; gap: 30px; align-items: center; margin-top: 10px; } .profile { width: 170px; height: 170px; border-radius: 50%; object-fit: cover; border: 3px solid var(--border); box-shadow: 0 0 20px var(--accent-soft); margin-bottom: 15px; } .tagline { color: var(--text-muted); font-size: 13px; line-height: 1.4; letter-spacing: 0.3px; text-shadow: 0 0 4px rgba(255,255,255,0.08); border-top: 1px solid rgba(255,255,255,0.05); padding-top: 6px; } .terminal { background: #05070d; border-radius: 10px; border: 1px solid var(--border); padding: 15px 18px; box-shadow: 0 0 18px rgba(0,0,0,0.6); font-size: 13px; white-space: pre-wrap; } .terminal-er { display: flex; gap: 6px; margin-bottom: 10px; } .dot { width: 9px; height: 9px; border-radius: 50%; } .dot.red { background: #ff5f57; } .dot.yellow { background: #febc2e; } .dot.green { background: #28c840; } .cursor { display: inline-block; width: 8px; background: #9cdcfe; animation: blink 1s step-start infinite; } @keyframes blink { 50% { opacity: 0; } } .card { background: var(--panel); padding: 20px 24px; border-radius: 12px; border: 1px solid var(--border); margin-top: 18px; box-shadow: 0 0 20px rgba(0,0,0,0.5); font-size: 14px; line-height: 1.55;} .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; } footer { margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-muted); text-align: center; } .project-card { background: var(--panel); border-radius: 12px; border: 1px solid var(--border); padding: 16px 18px; box-shadow: 0 0 18px rgba(0,0,0,0.5); font-size: 12px; line-height: 1.55; } .project-title { color: var(--accent); font-weight: 600; margin-bottom: 8px; font-size: 14px; line-height: 1.4; } #globeContainer { width: 100%; height: 350px; border-radius: 12px; border: 1px solid var(--border); margin-top: 18px; overflow: hidden; } #about .card { line-height: 1.9; letter-spacing: 0.1px; } section h2 { transition: color 0.25s ease, text-shadow 0.25s ease; } section h2:hover { color: var(--accent); text-shadow: 0 0 12px rgba(0, 255, 255, 0.45); cursor: default; } .site-icon { width: 70px; height: 70px; margin-right: 13px; vertical-align: middle; } .site-title { display: flex; align-items: center; } .name-block { display: inline-block; line-height: 1.2; } .last { display: block; text-align: right; } @media (max-width: 800px) {.name-block { text-align: left; line-height: 1.2;}.last { text-align: left; } .sidebar { position: fixed; top: 0; left: 0; right: 0; height: 60px; width: 100%; padding: 10px 16px; flex-direction: row; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); background: #05070d; } .hamburger { display: block; font-size: 24px; cursor: pointer; color: var(--accent); } .links a { color: var(--accent) !important; } .links a:hover { color: #8fe3ff !important; } .nav-links { display: none; flex-direction: column; width: 100%; background: #05070d; padding: 10px 0; border-bottom: 1px solid var(--border); position: absolute; top: 60px; left: 0; z-index: 998; } .nav-links a { padding: 12px 20px; font-size: 15px; } .main { margin-left: 0; padding-top: 90px; } .hero { flex-direction: column; text-align: center; } .profile { width: 140px; height: 140px; } #globeContainer { height: 260px; } } </style></><body><div class="bg-stars"></div><div class="bg-grid"></div><div class="layout"><aside class="sidebar"><h1 class="site-title"><img src="icon.svg" class="site-icon" alt=""><span class="name-block"><span class="first">Shobha Mourya</span><br><span class="last">Dumpati</span></span></h1><div class="hamburger" onclick="toggleMenu()">☰</div><nav class="nav-links"><a href="#home">/home</a><a href="#about">/about</a><a href="#skills">/skills</a><a href="#projects">/projects</a><a href="#globe">/globe</a><a href="#contact">/contact</a></nav><div class="sidebar-footer"><p>Aberdeen, Scotland</p></div></aside><main class="main"><div class="content"><section id="home" class="hero"><div class="hero-left"><img src="profile.jpeg" class="profile"><div class="tagline"> Remote Sensing • GIS • Earth Observation<br> Hydrographic Data Processor @ Fugro UK<br> Independent Researcher </div><div class="links" style="margin-top:10px;"><a href="https://www.linkedin.com/in/shobha-mourya-dumpati-99794b279">LinkedIn</a><a href="https://scholar.google.co.uk/citations?user=u40c4-gAAAAJ&hl=en&authuser=1">Scholar</a><a href="https://orcid.org/0009-0006-7086-7058">ORCID</a><a href="https://github.com/shobhamouryadumpati">GitHub</a></div></div><div class="hero-right"><div class="terminal"><div class="terminal-er"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><div id="terminalText">$ initializing...</div></div></div></section><section id="about"><h2>About Me</h2><div class="card"><p> I am a Hydrographic Data Processor at Fugro UK, where I am involved in Marine Site Characterisation. On a personal basis, I am an Independent Researcher specializing in GIS, Remote Sensing, and Earth Observation. My research interests include Remote Sensing, Geospatial Analysis, and Earth Observation projects. Based in Aberdeen, Scotland, I am a Fellow of the Geological Society (FGS), Fellow of the Royal Geographical Society (FRGS), Accredited Spatial Scientist, and UAS/UAV Pilot. </p></div></section><section id="skills"><h2>Skills</h2><div class="card"><ul><li>Remote Sensing</li><li>GIS & Spatial Analysis</li><li>Earth Observation</li><li>Python / Geospatial Tools</li><li>Machine Learning</li><li>Hydrographic Mapping & Charting</li></ul></div></section><section id="projects"><h2>Research Projects</h2><div class="projects-grid"><div class="project-card"><div class="project-title">🌊 Multi-Sensor Fusion of Sentinel-2 Imagery and ICESat-2 Satellite Laser Bathymetry for Benthic Habitat Classification in Key Largo, Florida Keys</div> Developed a method to integrate Sentinel-2 imagery and ICESat-2 satellite laser bathymetry for accurate benthic habitat mapping in coral reef areas. </div><div class="project-card"><div class="project-title">🏞️ Validation of ICESat-2 ATL13 Version 7 Water Surface Elevation on Small High-Latitude Rivers: A Case Study of the River Dee and River Don, Aberdeenshire, Scotland</div> Validated ICESat-2 ATL13 water surface elevation data for high-latitude rivers in Scotland. </div><div class="project-card"><div class="project-title">🧊 Inverting InSAR Observations to Estimate Basal Melt Rates: A Grounding‑Line Response Function Approach</div> Applied InSAR inversion techniques to estimate basal melt rates of ice sheets. </div></div></section><section id="globe"><h2>3D Globe</h2><div class="card"><p>Add your Cesium ion token to enable the interactive globe.</p><div id="globeContainer"></div></div></section><section id="contact"><h2>Contact</h2><div class="card"><p>Email: <strong>shobha.dumpati@outlook.com</strong></p><p>Location: <strong>Aberdeen, United Kingdom</strong></p></div></section><footer> © 2026 Shobha Mourya Dumpati | GIS • Remote Sensing • Earth Observation | All rights reserved </footer></div></main></div><script> function toggleMenu() { const nav = document.querySelector('.nav-links'); nav.style.display = (nav.style.display === 'flex') ? 'none' : 'flex'; } const terminalLines = [ "$ whoami", "shobha.dumpati", "", "$ load --modules \"Hydrography, GIS, Remote Sensing, Earth Observation\"", "$ set-location \"Aberdeen, Scotland\"", "$ status --now \"Processing marine data & exploring the planet from space.\"", "$ ready" ]; const terminalElement = document.getElementById("terminalText"); let lineIndex = 0; let charIndex = 0; let currentLine = ""; let isNewLine = true; function typeTerminal() { if (lineIndex >= terminalLines.length) { terminalElement.innerHTML = terminalLines.join("\n") + "\n$ <span class='cursor'></span>"; return; } if (isNewLine) { currentLine = terminalLines[lineIndex]; isNewLine = false; charIndex = 0; } const visibleText = currentLine.slice(0, charIndex); const previousLines = terminalLines.slice(0, lineIndex).join("\n"); terminalElement.innerHTML = (previousLines ? previousLines + "\n" : "") + visibleText + "<span class='cursor'></span>"; if (charIndex < currentLine.length) { charIndex++; setTimeout(typeTerminal, 35); } else { lineIndex++; isNewLine = true; setTimeout(typeTerminal, 300); } } typeTerminal(); try { Cesium.Ion.defaultAccessToken = "YOUR_CESIUM_ION_TOKEN_HERE"; const viewer = new Cesium.Viewer("globeContainer", { timeline: false, animation: false, baseLayerPicker: true, geocoder: false, sceneModePicker: false, navigationHelpButton: false, homeButton: true }); viewer.scene.camera.setView({ destination: Cesium.Cartesian3.fromDegrees(-3.0, 57.1, 350000.0) }); const controller = viewer.scene.screenSpaceCameraController; controller.minimumZoomDistance = 100000; controller.maximumZoomDistance = 8000000; controller.zoomEventTypes = [ Cesium.CameraEventType.WHEEL, Cesium.CameraEventType.PINCH ]; controller.inertiaZoom = 0.2; controller._zoomFactor = 1.5; } catch (e) { const globeDiv = document.getElementById("globeContainer"); globeDiv.innerHTML = "3D globe placeholder — add a valid Cesium ion token."; globeDiv.style.display = "flex"; globeDiv.style.alignItems = "center"; globeDiv.style.justifyContent = "center"; globeDiv.style.color = "#8b949e"; } </script></body></
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="copyright" content="Favicon © 2026 Shobha Mourya Dumpati. All rights reserved.">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shobha Mourya Dumpati</title>
+  <link rel="icon" type="image/png" href="sm-brand-icon-2026.png">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+
+
+
+  <!-- JetBrains Mono -->
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- CesiumJS -->
+  <link rel="stylesheet" href="https://cesium.com/downloads/cesiumjs/releases/1.120/Build/Cesium/Widgets/widgets.css">
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.120/Build/Cesium/Cesium.js"></script>
+
+  <style>
+    :root {
+      --bg: #05070b;
+      --panel: #0b1018;
+      --accent: #4cc2ff;
+      --accent-soft: rgba(76, 194, 255, 0.4);
+      --text-main: #d0d7de;
+      --text-muted: #8b949e;
+      --border: #1f2a33;
+    }
+
+    body {
+      margin: 0;
+      font-family: "JetBrains Mono", monospace;
+      background: var(--bg);
+      color: var(--text-main);
+      overflow-x: hidden;
+    }
+
+    /* Layout */
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar (desktop) */
+    .sidebar {
+      width: 240px;
+      background: #05070d;
+      border-right: 1px solid var(--border);
+      padding: 20px;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      z-index: 10;
+    }
+
+    .sidebar h1 {
+      font-size: 20px;
+      color: var(--accent);
+      margin: 0 0 5px;
+    }
+
+    .role {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+   /* Desktop nav always visible */
+.nav-links {
+  display: block;
+}
+
+.nav-links a {
+  display: block;
+  margin: 10px 0;
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.nav-links a:hover {
+  color: var(--accent);
+  text-shadow: 0 0 8px var(--accent-soft);
+}
+
+/* Force social links to match global accent color */
+.links a {
+  color: var(--accent) !important;
+  text-decoration: none !important;   /* remove underline */
+}
+
+.links a:hover {
+  color: #8fe3ff !important;
+  text-decoration: none !important;   /* keep underline off on hover */
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* Hide hamburger on desktop */
+.hamburger {
+  display: none;
+}
+
+
+    /* Main content */
+    .main {
+    margin-left: 290px; /* was 240px */
+    padding: 30px 20px 60px;
+    }
+
+
+    .content {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      color: var(--accent);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 6px;
+      margin-top: 50px;
+      text-shadow: 0 0 10px var(--accent-soft);
+    }
+
+    /* Background layers */
+    .bg-stars, .bg-grid {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .bg-stars {
+      background:
+        radial-gradient(circle at 10% 20%, rgba(255,255,255,0.15) 0, transparent 40%),
+        radial-gradient(circle at 80% 10%, rgba(255,255,255,0.08) 0, transparent 40%),
+        radial-gradient(circle at 50% 80%, rgba(255,255,255,0.1) 0, transparent 45%);
+      opacity: 0.25;
+      animation: twinkle 8s infinite alternate;
+    }
+
+    .bg-grid {
+      background-image:
+        linear-gradient(rgba(76,194,255,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(76,194,255,0.08) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.15;
+      transform: perspective(600px) rotateX(70deg);
+      transform-origin: top;
+      top: 40%;
+    }
+
+    @keyframes twinkle {
+      from { opacity: 0.15; }
+      to { opacity: 0.35; }
+    }
+
+    /* Hero */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .profile {
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--border);
+      box-shadow: 0 0 20px var(--accent-soft);
+      margin-bottom: 15px;
+    }
+
+    .tagline {
+      color: var(--text-muted);       /* keep the muted aesthetic */
+      font-size: 13px;
+      line-height: 1.4;
+      letter-spacing: 0.3px;          /* subtle nerdy precision */
+      text-shadow: 0 0 4px rgba(255,255,255,0.08); /* faint glow for clarity */
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding-top: 6px;
+    }
+
+    /* Terminal */
+    .terminal {
+      background: #05070d;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      padding: 15px 18px;
+      box-shadow: 0 0 18px rgba(0,0,0,0.6);
+      font-size: 13px;
+      white-space: pre-wrap;
+    }
+
+    .terminal-er {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+    }
+
+    .dot.red { background: #ff5f57; }
+    .dot.yellow { background: #febc2e; }
+    .dot.green { background: #28c840; }
+
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      background: #9cdcfe;
+      animation: blink 1s step-start infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    /* Cards */
+.card {
+  background: var(--panel);
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  margin-top: 18px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+
+  /* Smaller text for About, Skills, Projects, Contact */
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+    /* Projects */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+    }
+    /* Add footer spacing here */
+    footer {
+      margin-top: 60px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: center;
+     }
+    .project-card {
+      background: var(--panel);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 16px 18px;
+      box-shadow: 0 0 18px rgba(0,0,0,0.5);
+      font-size: 12px;        /* description size */
+      line-height: 1.55;
+      }
+
+     .project-title {
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 14px;        /* title size */
+      line-height: 1.4;
+     }
+    
+    /* Globe */
+    #globeContainer {
+      width: 100%;
+      height: 350px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-top: 18px;
+      overflow: hidden;
+    }
+    
+    #about .card {
+      line-height: 1.9;   /* increases vertical spacing */
+      letter-spacing: 0.1px; /* optional: improves readability */
+     }
+
+    /* Soft glow on hover for section ers */
+    section h2 {
+    transition: color 0.25s ease, text-shadow 0.25s ease;
+    }
+
+    section h2:hover {
+    color: var(--accent);
+    text-shadow: 0 0 12px rgba(0, 255, 255, 0.45);
+    cursor: default;
+    }
+    
+    .site-icon {
+     width: 70px;
+     height: 70px;
+     margin-right: 13px;
+     vertical-align: middle;
+     }
+
+    .site-title {
+     display: flex;
+     align-items: center;
+     }
+
+    .name-block {
+     display: inline-block;
+     line-height: 1.2;
+     }
+
+    .last {
+     display: block;
+     text-align: right;
+     }
+    
+     /* MOBILE VERSION */
+    /* MOBILE VERSION */
+    @media (max-width: 800px) {
+/* Mobile name alignment fix */
+.name-block {
+  text-align: left;      /* or center — whichever you prefer */
+  line-height: 1.2;
+}
+
+.last {
+  text-align: left;      /* override the desktop right-align */
+}
+
+      /* Sidebar becomes top bar */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        width: 100%;
+        padding: 10px 16px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--border);
+        background: #05070d;
+      }
+
+      /* Show hamburger only on mobile */
+      .hamburger {
+        display: block;
+        font-size: 24px;
+        cursor: pointer;
+        color: var(--accent);
+      }
+
+      .links a {
+      color: var(--accent) !important;
+      }
+
+      .links a:hover {
+      color: #8fe3ff !important;
+      }
+
+      .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      }
+      /* Hide nav until hamburger clicked */
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: #05070d;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--border);
+        position: absolute;
+        top: 60px;
+        left: 0;
+        z-index: 998;
+      }
+
+      .nav-links a {
+        padding: 12px 20px;
+        font-size: 15px;
+      }
+
+      .main {
+        margin-left: 0;
+        padding-top: 90px;
+      }
+
+      .hero {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .profile {
+        width: 140px;
+        height: 140px;
+      }
+
+      #globeContainer {
+        height: 260px;
+      }
+    }
+  </style>
+</>
+
+<body>
+
+  <!-- Background -->
+  <div class="bg-stars"></div>
+  <div class="bg-grid"></div>
+
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <h1 class="site-title">
+      <img src="icon.svg" class="site-icon" alt="">
+      <span class="name-block">
+      <span class="first">Shobha Mourya</span><br>
+      <span class="last">Dumpati</span>
+      </span>
+      </h1>
+
+      <!-- Mobile hamburger -->
+      <div class="hamburger" onclick="toggleMenu()">☰</div>
+
+      <!-- Navigation -->
+      <nav class="nav-links">
+        <a href="#home">/home</a>
+        <a href="#about">/about</a>
+        <a href="#skills">/skills</a>
+        <a href="#projects">/projects</a>
+        <a href="#globe">/globe</a>
+        <a href="#contact">/contact</a>
+      </nav>
+
+      <div class="sidebar-footer">
+      <p>Aberdeen, Scotland</p>
+      </div>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+      <div class="content">
+
+        <!-- HERO -->
+        <section id="home" class="hero">
+          <div class="hero-left">
+            <img src="profile.jpeg" class="profile">
+
+            <div class="tagline">
+              Remote Sensing • GIS • Earth Observation<br>
+              Hydrographic Data Processor @ Fugro UK<br>
+              Independent Researcher
+            </div>
+
+            <div class="links" style="margin-top:10px;">
+              <a href="https://www.linkedin.com/in/shobha-mourya-dumpati-99794b279">LinkedIn</a>
+              <a href="https://scholar.google.co.uk/citations?user=u40c4-gAAAAJ&hl=en&authuser=1">Scholar</a>
+              <a href="https://orcid.org/0009-0006-7086-7058">ORCID</a>
+              <a href="https://github.com/shobhamouryadumpati">GitHub</a>
+            </div>
+          </div>
+
+          <div class="hero-right">
+            <div class="terminal">
+              <div class="terminal-er">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <div id="terminalText">$ initializing...</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section id="about">
+          <h2>About Me</h2>
+          <div class="card">
+            <p>
+              I am a Hydrographic Data Processor at Fugro UK, where I am involved in Marine Site Characterisation.
+              On a personal basis, I am an Independent Researcher specializing in GIS, Remote Sensing, and Earth Observation.
+              My research interests include Remote Sensing, Geospatial Analysis, and Earth Observation projects.
+              Based in Aberdeen, Scotland, I am a Fellow of the Geological Society (FGS), Fellow of the Royal Geographical Society (FRGS),
+              Accredited Spatial Scientist, and UAS/UAV Pilot.
+            </p>
+          </div>
+        </section>
+
+        <!-- SKILLS -->
+        <section id="skills">
+          <h2>Skills</h2>
+          <div class="card">
+            <ul>
+              <li>Remote Sensing</li>
+              <li>GIS & Spatial Analysis</li>
+              <li>Earth Observation</li>
+              <li>Python / Geospatial Tools</li>
+              <li>Machine Learning</li>
+              <li>Hydrographic Mapping & Charting</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Research PROJECTS -->
+        <section id="projects">
+          <h2>Research Projects</h2>
+          <div class="projects-grid">
+            <div class="project-card">
+              <div class="project-title">🌊 Multi-Sensor Fusion of Sentinel-2 Imagery and ICESat-2 Satellite Laser Bathymetry for Benthic Habitat Classification in Key Largo, Florida Keys</div>
+              Developed a method to integrate Sentinel-2 imagery and ICESat-2 satellite laser bathymetry
+              for accurate benthic habitat mapping in coral reef areas.
+            </div>
+
+            <div class="project-card">
+              <div class="project-title">🏞️ Validation of ICESat-2 ATL13 Version 7 Water Surface Elevation on Small High-Latitude Rivers: A Case Study of the River Dee and River Don, Aberdeenshire, Scotland</div>
+              Validated ICESat-2 ATL13 water surface elevation data for high-latitude rivers in Scotland.
+            </div>
+
+            <div class="project-card">
+              <div class="project-title">🧊 Inverting InSAR Observations to Estimate Basal Melt Rates: A Grounding‑Line Response Function Approach</div>
+              Applied InSAR inversion techniques to estimate basal melt rates of ice sheets.
+            </div>
+          </div>
+        </section>
+
+        <!-- GLOBE -->
+        <section id="globe">
+          <h2>3D Globe</h2>
+          <div class="card">
+            <p>Add your Cesium ion token to enable the interactive globe.</p>
+            <div id="globeContainer"></div>
+          </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact">
+          <h2>Contact</h2>
+          <div class="card">
+            <p>Email: <strong>shobha.dumpati@outlook.com</strong></p>
+            <p>Location: <strong>Aberdeen, United Kingdom</strong></p>
+          </div>
+        </section>
+
+        <footer>
+          © 2026 Shobha Mourya Dumpati | GIS • Remote Sensing • Earth Observation | All rights reserved 
+        </footer>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    /* Hamburger toggle */
+    function toggleMenu() {
+      const nav = document.querySelector('.nav-links');
+      nav.style.display = (nav.style.display === 'flex') ? 'none' : 'flex';
+    }
+
+    /* Terminal typing effect */
+    const terminalLines = [
+      "$ whoami",
+      "shobha.dumpati",
+      "",
+      "$ load --modules \"Hydrography, GIS, Remote Sensing, Earth Observation\"",
+      "$ set-location \"Aberdeen, Scotland\"",
+      "$ status --now \"Processing marine data & exploring the planet from space.\"",
+      "$ ready"
+    ];
+
+    const terminalElement = document.getElementById("terminalText");
+    let lineIndex = 0;
+    let charIndex = 0;
+    let currentLine = "";
+    let isNewLine = true;
+
+    function typeTerminal() {
+      if (lineIndex >= terminalLines.length) {
+        terminalElement.innerHTML = terminalLines.join("\n") + "\n$ <span class='cursor'></span>";
+        return;
+      }
+
+      if (isNewLine) {
+        currentLine = terminalLines[lineIndex];
+        isNewLine = false;
+        charIndex = 0;
+      }
+
+      const visibleText = currentLine.slice(0, charIndex);
+      const previousLines = terminalLines.slice(0, lineIndex).join("\n");
+      terminalElement.innerHTML =
+        (previousLines ? previousLines + "\n" : "") +
+        visibleText +
+        "<span class='cursor'></span>";
+
+      if (charIndex < currentLine.length) {
+        charIndex++;
+        setTimeout(typeTerminal, 35);
+      } else {
+        lineIndex++;
+        isNewLine = true;
+        setTimeout(typeTerminal, 300);
+      }
+    }
+
+    typeTerminal();
+
+    /* Cesium Globe */
+    try {
+      Cesium.Ion.defaultAccessToken = "YOUR_CESIUM_ION_TOKEN_HERE";
+
+      const viewer = new Cesium.Viewer("globeContainer", {
+        timeline: false,
+        animation: false,
+        baseLayerPicker: true,
+        geocoder: false,
+        sceneModePicker: false,
+        navigationHelpButton: false,
+        homeButton: true
+      });
+
+      viewer.scene.camera.setView({
+        destination: Cesium.Cartesian3.fromDegrees(-3.0, 57.1, 350000.0)
+      });
+
+      const controller = viewer.scene.screenSpaceCameraController;
+      controller.minimumZoomDistance = 100000;
+      controller.maximumZoomDistance = 8000000;
+      controller.zoomEventTypes = [
+        Cesium.CameraEventType.WHEEL,
+        Cesium.CameraEventType.PINCH
+      ];
+      controller.inertiaZoom = 0.2;
+      controller._zoomFactor = 1.5;
+
+    } catch (e) {
+      const globeDiv = document.getElementById("globeContainer");
+      globeDiv.innerHTML = "3D globe placeholder — add a valid Cesium ion token.";
+      globeDiv.style.display = "flex";
+      globeDiv.style.alignItems = "center";
+      globeDiv.style.justifyContent = "center";
+      globeDiv.style.color = "#8b949e";
+    }
+  </script>
+
+</body>
+</
