@@ -324,6 +324,13 @@
      display: block;
      text-align: right;
      }
+    
+    .sidebar-icon {
+      width: 45px;     /* matches your header icon size */
+      height: 45px;
+      display: block;  /* ensures it sits on its own line */
+      margin: 12px auto; /* centers it nicely */
+     }
 
     /* MOBILE VERSION */
     @media (max-width: 800px) {
@@ -433,8 +440,13 @@
       </nav>
 
       <div class="sidebar-footer">
-        Aberdeen, Scotland
+      <a href="mailto:...">Contact</a>
+
+      <img src="icon.svg" class="sidebar-icon" alt="">
+
+      <p>Aberdeen, Scotland</p>
       </div>
+
     </aside>
 
     <!-- MAIN CONTENT -->
