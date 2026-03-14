@@ -1,0 +1,46 @@
+<svg
+  viewBox="0 0 100 100"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <!-- Dark background -->
+  <rect width="100" height="100" fill="#05070d"/>
+
+  <!-- Glow filter -->
+  <defs>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Satellite with glow -->
+  <g transform="rotate(50 50 50)" filter="url(#glow)">
+    <!-- Main body -->
+    <rect x="42" y="35" width="16" height="30" fill="#4CC2FF" rx="1"/>
+
+    <!-- Left solar panel -->
+    <rect x="18" y="44" width="22" height="12" fill="none" stroke="#4CC2FF" stroke-width="2"/>
+    <line x1="24" y1="44" x2="24" y2="56" stroke="#4CC2FF" stroke-width="1"/>
+    <line x1="29" y1="44" x2="29" y2="56" stroke="#4CC2FF" stroke-width="1"/>
+    <line x1="34" y1="44" x2="34" y2="56" stroke="#4CC2FF" stroke-width="1"/>
+
+    <!-- Right solar panel -->
+    <rect x="60" y="44" width="22" height="12" fill="none" stroke="#4CC2FF" stroke-width="2"/>
+    <line x1="66" y1="44" x2="66" y2="56" stroke="#4CC2FF" stroke-width="1"/>
+    <line x1="71" y1="44" x2="71" y2="56" stroke="#4CC2FF" stroke-width="1"/>
+    <line x1="76" y1="44" x2="76" y2="56" stroke="#4CC2FF" stroke-width="1"/>
+
+    <!-- Connection bars -->
+    <rect x="40" y="47" width="2" height="6" fill="#4CC2FF"/>
+    <rect x="58" y="47" width="2" height="6" fill="#4CC2FF"/>
+
+    <!-- Signal beams -->
+    <line x1="50" y1="35" x2="50" y2="5" stroke="#4CC2FF" stroke-width="1.5" opacity="0.5"/>
+    <line x1="50" y1="35" x2="58" y2="8" stroke="#4CC2FF" stroke-width="1.5" opacity="0.7"/>
+    <line x1="50" y1="35" x2="54" y2="10" stroke="#4CC2FF" stroke-width="1.5" opacity="0.6"/>
+    <line x1="50" y1="35" x2="46" y2="10" stroke="#4CC2FF" stroke-width="1.5" opacity="0.5"/>
+  </g>
+</svg>
