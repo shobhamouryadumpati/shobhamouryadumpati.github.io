@@ -86,10 +86,12 @@
 /* Force social links to match global accent color */
 .links a {
   color: var(--accent) !important;
+  text-decoration: none !important;   /* remove underline */
 }
 
 .links a:hover {
   color: #8fe3ff !important;
+  text-decoration: none !important;   /* keep underline off on hover */
 }
 
 .sidebar-footer {
@@ -221,14 +223,18 @@
     }
 
     /* Cards */
-    .card {
-      background: var(--panel);
-      padding: 20px 24px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      margin-top: 18px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
-    }
+.card {
+  background: var(--panel);
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  margin-top: 18px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+
+  /* Smaller text for About, Skills, Projects, Contact */
+  font-size: 12.5px;
+  line-height: 1.55;
+}
 
     /* Projects */
     .projects-grid {
@@ -347,7 +353,7 @@
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
-      <h1>Shobha M. Dumpati</h1>
+      <h1>Shobha Mourya Dumpati</h1>
 
       <!-- Mobile hamburger -->
       <div class="hamburger" onclick="toggleMenu()">☰</div>
