@@ -96,9 +96,10 @@
 
     /* Main content */
     .main {
-      margin-left: 240px;
-      padding: 30px 20px 60px;
+    margin-left: 260px; /* was 240px */
+    padding: 30px 20px 60px;
     }
+
 
     .content {
       max-width: 1000px;
@@ -275,6 +276,14 @@
         font-size: 24px;
         cursor: pointer;
         color: var(--accent);
+      }
+
+      .links a {
+      color: var(--accent) !important;
+      }
+
+      .links a:hover {
+      color: #8fe3ff !important;
       }
 
       /* Hide nav until hamburger clicked */
