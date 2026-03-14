@@ -288,6 +288,17 @@
       letter-spacing: 0.1px; /* optional: improves readability */
      }
 
+    /* Soft glow on hover for section headers */
+    section h2 {
+    transition: color 0.25s ease, text-shadow 0.25s ease;
+    }
+
+    section h2:hover {
+    color: var(--accent);
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.35);
+    cursor: default;
+    }
+
     /* MOBILE VERSION */
     @media (max-width: 800px) {
 
