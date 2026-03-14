@@ -41,7 +41,7 @@
       min-height: 100vh;
     }
 
-    /* Sidebar */
+    /* Sidebar (desktop) */
     .sidebar {
       width: 240px;
       background: #05070d;
@@ -153,7 +153,7 @@
       to { opacity: 0.35; }
     }
 
-    /* Header / terminal intro */
+    /* Hero */
     .hero {
       display: flex;
       flex-wrap: wrap;
@@ -192,6 +192,7 @@
       font-size: 13px;
     }
 
+    /* Terminal */
     .terminal {
       background: #05070d;
       border-radius: 10px;
@@ -257,7 +258,7 @@
       padding-left: 20px;
     }
 
-    /* Project cards with icons */
+    /* Project cards */
     .projects-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -291,7 +292,7 @@
       color: var(--accent);
     }
 
-    /* Globe section */
+    /* Globe */
     #globeContainer {
       width: 100%;
       height: 350px;
@@ -308,102 +309,110 @@
       text-align: center;
     }
 
-    /* Responsive */
-@media (max-width: 800px) {
+    /* MOBILE OPTIMIZATION */
+    @media (max-width: 800px) {
 
-  .sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: auto;
-    width: 100%;
-    padding: 12px 16px;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-    background: #05070d;   /* FIXED: solid background */
-    backdrop-filter: none; /* FIXED: no blur */
-    z-index: 999;
-  }
+      /* Compact mobile header */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        width: 100%;
+        padding: 10px 16px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        background: #05070d;
+        backdrop-filter: none;
+        z-index: 999;
+      }
 
-  .sidebar h1 {
-    font-size: 18px;
-  }
+      .sidebar h1 {
+        font-size: 18px;
+      }
 
-  .role {
-    font-size: 11px;
-  }
+      .sidebar .role {
+        display: none;
+      }
 
-  .nav-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 10px;
-  }
+      /* Hamburger */
+      .hamburger {
+        font-size: 24px;
+        cursor: pointer;
+        color: var(--accent);
+      }
 
-  .nav-links a {
-    font-size: 12px;
-  }
+      /* Hide nav by default */
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: #05070d;
+        padding: 10px 0;
+        border-top: 1px solid var(--border);
+      }
 
-  .sidebar-footer {
-    display: none;
-  }
+      .nav-links a {
+        font-size: 14px;
+        padding: 8px 16px;
+      }
 
-  .main {
-    margin-left: 0;
-    padding-top: 120px;
-  }
+      .sidebar-footer {
+        display: none;
+      }
 
-  .hero {
-    flex-direction: column;
-    text-align: center;
-  }
+      /* Main content shifts down */
+      .main {
+        margin-left: 0;
+        padding-top: 120px;
+      }
 
-  .hero-left, .hero-right {
-    width: 100%;
-  }
+      /* Hero stacks */
+      .hero {
+        flex-direction: column;
+        text-align: center;
+      }
 
-  .profile {
-    width: 140px;
-    height: 140px;
-  }
+      .profile {
+        width: 140px;
+        height: 140px;
+      }
 
-  .tagline {
-    font-size: 13px;
-  }
+      .terminal {
+        font-size: 12px;
+        padding: 12px 14px;
+      }
 
-  .terminal {
-    font-size: 12px;
-    padding: 12px 14px;
-  }
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
 
-  .projects-grid {
-    grid-template-columns: 1fr;
-  }
-
-  #globeContainer {
-    height: 260px;
-  }
-}
+      #globeContainer {
+        height: 260px;
+      }
+    }
   </style>
 </head>
 
 <body>
 
-  <!-- Background layers -->
+  <!-- Background -->
   <div class="bg-stars"></div>
   <div class="bg-grid"></div>
 
   <div class="layout">
-    <!-- Sidebar -->
+
+    <!-- SIDEBAR -->
     <aside class="sidebar">
       <div>
-        <h1>Shobha Mourya Dumpati</h1>
-        <div class="role">Hydrography • GIS • Remote Sensing</div>
+        <h1>Shobha M. Dumpati</h1>
       </div>
+
+      <div class="hamburger" onclick="toggleMenu()">☰</div>
 
       <nav class="nav-links">
         <a href="#home">/home</a>
@@ -419,11 +428,11 @@
       </div>
     </aside>
 
-    <!-- Main content -->
+    <!-- MAIN CONTENT -->
     <main class="main">
       <div class="content">
 
-        <!-- HOME / HERO -->
+        <!-- HERO -->
         <section id="home" class="hero">
           <div class="hero-left">
             <img src="profile.jpeg" alt="Profile photo" class="profile">
@@ -548,7 +557,13 @@
   </div>
 
   <script>
-    // ---------- Terminal typing effect ----------
+    /* Hamburger toggle */
+    function toggleMenu() {
+      const nav = document.querySelector('.nav-links');
+      nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    /* Terminal typing effect */
     const terminalLines = [
       "$ whoami",
       "shobha.dumpati",
@@ -563,77 +578,3 @@
     let lineIndex = 0;
     let charIndex = 0;
     let currentLine = "";
-    let isNewLine = true;
-
-    function typeTerminal() {
-      if (lineIndex >= terminalLines.length) {
-        terminalElement.innerHTML = terminalLines.join("\n") + "\n$ <span class='cursor'></span>";
-        return;
-      }
-
-      if (isNewLine) {
-        currentLine = terminalLines[lineIndex];
-        isNewLine = false;
-        charIndex = 0;
-      }
-
-      const visibleText = currentLine.slice(0, charIndex);
-      const previousLines = terminalLines.slice(0, lineIndex).join("\n");
-      terminalElement.innerHTML =
-        (previousLines ? previousLines + "\n" : "") +
-        visibleText +
-        "<span class='cursor'></span>";
-
-      if (charIndex < currentLine.length) {
-        charIndex++;
-        setTimeout(typeTerminal, 35);
-      } else {
-        lineIndex++;
-        isNewLine = true;
-        setTimeout(typeTerminal, 300);
-      }
-    }
-
-    typeTerminal();
-
-    // ---------- CesiumJS basic globe ----------
-    try {
-      // Replace this with your real Cesium ion token
-      Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxYmVmNzNlOS0xZDY1LTQ5ZTUtYTg3ZC03ODg3NzljN2VmMmQiLCJpZCI6NDAzMjc5LCJpYXQiOjE3NzM0MzY1ODh9.j3g5qVlcZTNGARz8WAzyS_eY_hHjA19BlqeXLjIcA_4";
-
-      const viewer = new Cesium.Viewer("globeContainer", {
-        timeline: false,
-        animation: false,
-        baseLayerPicker: true,
-        geocoder: false,
-        sceneModePicker: false,
-        navigationHelpButton: false,
-        homeButton: true
-      });
-// Smooth, controlled zoom
-viewer.scene.screenSpaceCameraController.minimumZoomDistance = 500000;
-viewer.scene.screenSpaceCameraController.maximumZoomDistance = 20000000;
-viewer.scene.screenSpaceCameraController.zoomEventTypes = [
-  Cesium.CameraEventType.WHEEL,
-  Cesium.CameraEventType.PINCH
-];
-viewer.scene.screenSpaceCameraController._zoomFactor = 2.0;
-      viewer.scene.camera.setView({
-        destination: Cesium.Cartesian3.fromDegrees(-3.0, 57.1, 2000000.0)
-      });
-    } catch (e) {
-      console.warn("CesiumJS failed to load or token missing:", e);
-      const globeDiv = document.getElementById("globeContainer");
-      if (globeDiv) {
-        globeDiv.innerHTML = "3D globe placeholder — add a valid Cesium ion token to enable.";
-        globeDiv.style.display = "flex";
-        globeDiv.style.alignItems = "center";
-        globeDiv.style.justifyContent = "center";
-        globeDiv.style.color = "#8b949e";
-        globeDiv.style.fontSize = "13px";
-      }
-    }
-  </script>
-
-</body>
-</html>
