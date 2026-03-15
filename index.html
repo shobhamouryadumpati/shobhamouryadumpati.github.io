@@ -99,6 +99,16 @@
   text-decoration: none !important;   /* keep underline off on hover */
 }
 
+#projects a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+#projects a:hover {
+  color: #8fe3ff;
+  text-decoration: none;
+}
+    
 .links {
   display: flex;
   flex-wrap: wrap;
@@ -541,26 +551,41 @@
         </section>
 
         <!-- Research PROJECTS -->
-        <section id="projects">
-          <h2>Research Projects</h2>
-          <div class="projects-grid">
-            <div class="project-card">
-              <div class="project-title">🌊 Multi-Sensor Fusion of Sentinel-2 Imagery and ICESat-2 Satellite Laser Bathymetry for Benthic Habitat Classification in Key Largo, Florida Keys</div>
-              Developed a method to integrate Sentinel-2 imagery and ICESat-2 satellite laser bathymetry
-              for accurate benthic habitat mapping in coral reef areas.
-            </div>
+<section id="projects">
+  <h2>Research Projects</h2>
+  <div class="projects-grid">
 
-            <div class="project-card">
-              <div class="project-title">🏞️ Validation of ICESat-2 ATL13 Version 7 Water Surface Elevation on Small High-Latitude Rivers: A Case Study of the River Dee and River Don, Aberdeenshire, Scotland</div>
-              Validated ICESat-2 ATL13 water surface elevation data for high-latitude rivers in Scotland.
-            </div>
+    <div class="project-card">
+      <div class="project-title">
+        🌊 <a href="https://doi.org/10.22541/essoar.177136709.96534464/v1" target="_blank">
+        Multi-Sensor Fusion of Sentinel-2 Imagery and ICESat-2 Satellite Laser Bathymetry for Benthic Habitat Classification in Key Largo, Florida Keys
+        </a>
+      </div>
+      Developed a method to integrate Sentinel-2 imagery and ICESat-2 satellite laser bathymetry
+      for accurate benthic habitat mapping in coral reef areas.
+    </div>
 
-            <div class="project-card">
-              <div class="project-title">🧊 Inverting InSAR Observations to Estimate Basal Melt Rates: A Grounding‑Line Response Function Approach</div>
-              Applied InSAR inversion techniques to estimate basal melt rates of ice sheets.
-            </div>
-          </div>
-        </section>
+    <div class="project-card">
+      <div class="project-title">
+        🏞️ <a href="https://doi.org/10.31223/X5NX8N" target="_blank">
+        Validation of ICESat-2 ATL13 Version 7 Water Surface Elevation on Small High-Latitude Rivers: A Case Study of the River Dee and River Don, Aberdeenshire, Scotland
+        </a>
+      </div>
+      Validated ICESat-2 ATL13 water surface elevation data for high-latitude rivers in Scotland.
+    </div>
+
+    <div class="project-card">
+      <div class="project-title">
+        🧊 <a href="https://doi.org/10.22541/essoar.177177354.40412928/v1" target="_blank">
+        Inverting InSAR Observations to Estimate Basal Melt Rates: A Grounding‑Line Response Function Approach
+        </a>
+      </div>
+      Applied InSAR inversion techniques to estimate basal melt rates of ice sheets.
+    </div>
+
+  </div>
+</section>
+
 
         <!-- GLOBE -->
         <section id="globe">
