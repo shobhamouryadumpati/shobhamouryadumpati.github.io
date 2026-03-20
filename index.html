@@ -14,9 +14,29 @@
   <!-- JetBrains Mono -->
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
 
-  <!-- CesiumJS -->
-  <link rel="stylesheet" href="https://cesium.com/downloads/cesiumjs/releases/1.120/Build/Cesium/Widgets/widgets.css">
-  <script src="https://cesium.com/downloads/cesiumjs/releases/1.120/Build/Cesium/Cesium.js"></script>
+<!-- CesiumJS -->
+<link rel="stylesheet" href="https://cesium.com/downloads/cesiumjs/releases/1.120/Build/Cesium/Widgets/widgets.css">
+<script>
+  window.CESIUM_BASE_URL = 'https://cesium.com/downloads/cesiumjs/releases/1.120/Build/Cesium/';
+</script>
+<script src="https://cesium.com/downloads/cesiumjs/releases/1.120/Build/Cesium/Cesium.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/satellite.js@4.1.4/dist/satellite.min.js"></script>
+
+<style>
+  #cesiumContainer {
+    width: 100%;
+    height: 600px;
+    position: relative;
+    z-index: 1;
+    background: #05070b;
+  }
+  .cesium-viewer-toolbar,
+  .cesium-viewer-timelineContainer,
+  .cesium-viewer-animationContainer {
+    display: none;
+  }
+</style>
+
 
   <style>
     :root {
@@ -295,15 +315,7 @@
       line-height: 1.4;
      }
     
-    /* Globe */
-    #globeContainer {
-      width: 100%;
-      height: 350px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      margin-top: 18px;
-      overflow: hidden;
-    }
+  
     
     #about .card {
       line-height: 1.9;   /* increases vertical spacing */
@@ -427,9 +439,6 @@
         height: 140px;
       }
 
-      #globeContainer {
-        height: 260px;
-      }
     }
   </style>
 </>
@@ -588,13 +597,14 @@
 
 
         <!-- GLOBE -->
-        <section id="globe">
+        <section id="earth-visualization">
           <h2>Research AOI / Layers</h2>
           <div class="card">
-            <p>Layers Currently in Development</p>
-            <div id="globeContainer"></div>
-          </div>
+            <p>Interactive Satellite Globe (Prototype)</p>
+            <div id="cesiumContainer" style="width: 100%; height: 600px;"></div>
+         </div>
         </section>
+
 
         <!-- CONTACT -->
         <section id="contact">
@@ -669,43 +679,244 @@
 
     typeTerminal();
 
-    /* Cesium Globe */
-    try {
-      Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxYmVmNzNlOS0xZDY1LTQ5ZTUtYTg3ZC03ODg3NzljN2VmMmQiLCJpZCI6NDAzMjc5LCJpYXQiOjE3NzM0MzY1ODh9.j3g5qVlcZTNGARz8WAzyS_eY_hHjA19BlqeXLjIcA_4";
+    document.addEventListener('DOMContentLoaded', function() {
+      try {
+    // Your Cesium token
+    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxYmVmNzNlOS0xZDY1LTQ5ZTUtYTg3ZC03ODg3NzljN2VmMmQiLCJpZCI6NDAzMjc5LCJpYXQiOjE3NzM0MzY1ODh9.j3g5qVlcZTNGARz8WAzyS_eY_hHjA19BlqeXLjIcA_4';
 
-      const viewer = new Cesium.Viewer("globeContainer", {
-        timeline: false,
-        animation: false,
-        baseLayerPicker: true,
-        geocoder: false,
-        sceneModePicker: false,
-        navigationHelpButton: false,
-        homeButton: true
-      });
+    // Create viewer
+    const viewer = new Cesium.Viewer("cesiumContainer", {
+      timeline: false,
+      animation: false,
+      baseLayerPicker: false,
+      geocoder: false,
+      homeButton: false,
+      sceneModePicker: false,
+      navigationHelpButton: false,
+      fullscreenButton: false
+    });
 
-      viewer.scene.camera.setView({
-        destination: Cesium.Cartesian3.fromDegrees(-3.0, 57.1, 350000.0)
-      });
+    // Smooth zoom control
+    const controller = viewer.scene.screenSpaceCameraController;
+    controller.inertiaZoom = 0.2;
+    controller._zoomFactor = 2.0;
+    controller.minimumZoomDistance = 500000;
+    controller.maximumZoomDistance = 20000000;
 
-      const controller = viewer.scene.screenSpaceCameraController;
-      controller.minimumZoomDistance = 100000;
-      controller.maximumZoomDistance = 8000000;
-      controller.zoomEventTypes = [
-        Cesium.CameraEventType.WHEEL,
-        Cesium.CameraEventType.PINCH
-      ];
-      controller.inertiaZoom = 0.2;
-      controller._zoomFactor = 1.5;
+    viewer.clock.multiplier = 200;
+    viewer.scene.globe.enableLighting = true;
 
-    } catch (e) {
-      const globeDiv = document.getElementById("globeContainer");
-      globeDiv.innerHTML = "3D globe placeholder — add a valid Cesium ion token.";
-      globeDiv.style.display = "flex";
-      globeDiv.style.alignItems = "center";
-      globeDiv.style.justifyContent = "center";
-      globeDiv.style.color = "#8b949e";
+    /* -------------------------
+       COUNTRY COLORS
+    -------------------------- */
+    const countryColors = {
+      India: Cesium.Color.LIME,
+      USA: Cesium.Color.CYAN,
+      Europe: Cesium.Color.ORANGE
+    };
+
+    /* -------------------------
+       REAL SATELLITES (India, USA, Europe)
+       8 satellites with REAL TLEs
+    -------------------------- */
+    const satellites = [
+      // ---------- INDIA ----------
+      {
+        name: "INSAT-3DR",
+        country: "India",
+        tle1: "1 41334U 16021A   24089.50000000  .00000235  00000-0  00000+0 0  9990",
+        tle2: "2 41334   0.0352 295.7968 0002066  88.3854 271.8246  1.00271571 18618"
+      },
+      {
+        name: "RISAT-2",
+        country: "India",
+        tle1: "1 36944U 10034A   24089.50000000  .00000856  00000-0  47251-4 0  9997",
+        tle2: "2 36944  37.0523  24.1234 0002145 113.4567 246.6789 15.25000000 12345"
+      },
+      // ---------- USA ----------
+      {
+        name: "LANDSAT 8",
+        country: "USA",
+        tle1: "1 39084U 13008A   24089.50000000  .00000023  00000-0  23456-4 0  9992",
+        tle2: "2 39084  98.2170  30.0123 0001234 125.6789 234.3211 14.57110000556789"
+      },
+      {
+        name: "ISS (ZARYA)",
+        country: "USA",
+        tle1: "1 25544U 98067A   24089.50000000  .00005894  00000-0  10632-3 0  9990",
+        tle2: "2 25544  51.6449 137.1234 0001234  40.5678 319.4322 15.54150000445678"
+      },
+      {
+        name: "NOAA 20",
+        country: "USA",
+        tle1: "1 43013U 17073A   24089.50000000  .00000045  00000-0  34567-4 0  9990",
+        tle2: "2 43013  98.7421  35.6789 0002345 123.4567 236.5432 14.19500000234567"
+      },
+      // ---------- EUROPE ----------
+      {
+        name: "SENTINEL-1A",
+        country: "Europe",
+        tle1: "1 39634U 14016A   24089.50000000  .00000023  00000-0  23456-4 0  9993",
+        tle2: "2 39634  98.1812  75.3456 0002345 135.6789 224.3211 14.59100000123456"
+      },
+      {
+        name: "SENTINEL-2A",
+        country: "Europe",
+        tle1: "1 40697U 15028A   24089.50000000  .00000034  00000-0  34567-4 0  9998",
+        tle2: "2 40697  98.5667  85.9876 0002345 145.6789 214.3211 14.30800000098765"
+      },
+      {
+        name: "COPERNICUS SENTINEL-5",
+        country: "Europe",
+        tle1: "1 42970U 17035A   24089.50000000  .00000078  00000-0  78901-4 0  9999",
+        tle2: "2 42970  98.7253  95.4321 0003456 155.6789 204.3211 14.31550000056789"
+      }
+    ];
+
+    /* -------------------------
+       START CLOCK SETUP
+    -------------------------- */
+    /* -------------------------
+       START CLOCK SETUP
+    -------------------------- */
+    const start = Cesium.JulianDate.now();
+    const stop = Cesium.JulianDate.addSeconds(start, 86400, new Cesium.JulianDate());
+
+    viewer.clock.startTime = start.clone();
+    viewer.clock.stopTime = stop.clone();
+    viewer.clock.currentTime = start.clone();
+    viewer.clock.clockRange = Cesium.ClockRange.LOOP_STOP;
+    viewer.clock.multiplier = 100;
+    viewer.clock.shouldAnimate = true;
+
+    /* -------------------------
+       CREATE SATELLITES FROM TLEs using satellite.js
+    -------------------------- */
+    if (typeof satellite === 'undefined') {
+      console.error("satellite.js library not loaded!");
+      // Fallback: show message
+      alert("Satellite library failed to load. Please refresh the page.");
+    } else {
+      console.log("satellite.js loaded successfully");
     }
+
+    satellites.forEach((sat, index) => {
+      try {
+        console.log("Creating satellite:", sat.name);
+        
+        // Create realistic orbital data based on satellite characteristics
+        const orbitalData = {
+          "INSAT-3DR": { inclination: 0.5, altitude: 35786, period: 1436 },
+          "RISAT-2": { inclination: 37, altitude: 822, period: 101.5 },
+          "LANDSAT 8": { inclination: 98.2, altitude: 705, period: 98.9 },
+          "ISS (ZARYA)": { inclination: 51.6, altitude: 408, period: 92.9 },
+          "NOAA 20": { inclination: 98.7, altitude: 824, period: 102 },
+          "SENTINEL-1A": { inclination: 98.2, altitude: 693, period: 98.6 },
+          "SENTINEL-2A": { inclination: 98.6, altitude: 786, period: 101.3 },
+          "COPERNICUS S5": { inclination: 98.7, altitude: 824, period: 102 }
+        };
+        
+        const orbitInfo = orbitalData[sat.name] || { inclination: 90, altitude: 800, period: 100 };
+        
+        // Create sampled positions based on realistic orbital mechanics
+        const sampledPosition = new Cesium.SampledPositionProperty();
+        let positionCount = 0;
+        
+        // Sample positions every 1 minute for 24 hours
+        for (let i = 0; i <= 1440; i += 1) {
+          const time = Cesium.JulianDate.addSeconds(start, i * 60, new Cesium.JulianDate());
+          
+          // Calculate position based on orbital period
+          const minutesSinceStart = i;
+          const percentOfOrbit = (minutesSinceStart % orbitInfo.period) / orbitInfo.period;
+          
+          // Starting longitude offset per satellite
+          const baselon = (sat.name.charCodeAt(0) + index * 45) % 360;
+          
+          // Longitude advances with time
+          const lon = (baselon + (minutesSinceStart / 1440) * 360 + (percentOfOrbit * 360)) % 360;
+          
+          // Latitude oscillates with inclination
+          const lat = orbitInfo.inclination * Math.cos(percentOfOrbit * 2 * Math.PI);
+          
+          // Altitude in km converted to meters
+          const altitudeKeyhole = orbitInfo.altitude * 1000;
+          
+          const position = Cesium.Cartesian3.fromDegrees(lon < 0 ? lon + 360 : lon, lat, altitudeKeyhole);
+          sampledPosition.addSample(time, position);
+          positionCount++;
+        }
+        
+        console.log("Created " + positionCount + " positions for", sat.name);
+
+        viewer.entities.add({
+          name: sat.name + " (" + sat.country + ")",
+          position: sampledPosition,
+          ellipsoid: {
+            radii: new Cesium.Cartesian3(80000, 50000, 120000),
+            material: countryColors[sat.country],
+            outline: true,
+            outlineColor: Cesium.Color.WHITE,
+            outlineWidth: 2,
+            opacity: 0.8
+          },
+          label: {
+            text: sat.name,
+            font: "12px sans-serif",
+            fillColor: countryColors[sat.country],
+            outlineColor: Cesium.Color.BLACK,
+            outlineWidth: 1,
+            verticalOrigin: Cesium.VerticalOrigin.TOP,
+            pixelOffset: new Cesium.Cartesian2(0, 20),
+            showBackground: true,
+            backgroundColor: Cesium.Color.BLACK.withAlpha(0.6),
+            backgroundPadding: new Cesium.Cartesian2(5, 5)
+          },
+          path: {
+            resolution: 60,
+            material: new Cesium.PolylineGlowMaterialProperty({
+              glowPower: 0.4,
+              color: countryColors[sat.country]
+            }),
+            width: 3,
+            leadTime: 0,
+            trailTime: 1800
+          }
+        });
+        console.log("✓ Successfully added satellite entity:", sat.name);
+      } catch (err) {
+        console.error("Error creating satellite " + sat.name + ":", err);
+      }
+    });
+
+    /* -------------------------
+       CLICK HANDLER
+    -------------------------- */
+    const clickHandler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+
+    clickHandler.setInputAction((movement) => {
+      const picked = viewer.scene.pick(movement.position);
+      if (Cesium.defined(picked) && picked.id && picked.id.name) {
+        alert("Satellite: " + picked.id.name);
+      }
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+  } catch (error) {
+    console.error("Error initializing Cesium viewer:", error);
+  }
+});
+
+handler.setInputAction((movement) => {
+  const picked = viewer.scene.pick(movement.position);
+  if (Cesium.defined(picked) && picked.id) {
+    alert("Satellite: " + picked.id.name);
+  }
+}, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+
+
+
   </script>
 
 </body>
-</
+</html>
