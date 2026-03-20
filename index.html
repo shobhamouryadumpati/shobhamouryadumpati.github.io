@@ -8,8 +8,6 @@
   <title>Shobha Mourya Dumpati</title>
   <link rel="icon" type="image/png" href="sm-brand-icon-2026.png">
   <link rel="icon" type="image/svg+xml" href="icon-maxfill-2026.svg">
-  <link href="https://cesium.com/downloads/cesiumjs/releases/1.113/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
-  <script src="https://cesium.com/downloads/cesiumjs/releases/1.113/Build/Cesium/Cesium.js"></script>
 
 
   
@@ -436,18 +434,6 @@
   </style>
 </>
 
- <style>
-  #cesiumContainer {
-    position: relative;
-  }
-  .cesium-viewer-toolbar,
-  .cesium-viewer-timelineContainer,
-  .cesium-viewer-animationContainer {
-    display: none; /* keep it clean for now */
-  }
-</style>
- 
-
 <body>
 
   <!-- Background -->
@@ -602,10 +588,13 @@
 
 
         <!-- GLOBE -->
-        <section id="earth-visualization">
-            <div id="cesiumContainer" style="width: 100%; height: 500px;"></div>
+        <section id="globe">
+          <h2>Research AOI / Layers</h2>
+          <div class="card">
+            <p>Layers Currently in Development</p>
+            <div id="globeContainer"></div>
+          </div>
         </section>
-
 
         <!-- CONTACT -->
         <section id="contact">
@@ -680,23 +669,43 @@
 
     typeTerminal();
 
-    <script>
-  // Basic Cesium viewer
-  const viewer = new Cesium.Viewer("cesiumContainer", {
-    timeline: false,
-    animation: false,
-    baseLayerPicker: false,
-    geocoder: false,
-    homeButton: false,
-    sceneModePicker: false,
-    navigationHelpButton: false,
-    fullscreenButton: false
-  });
+    /* Cesium Globe */
+    try {
+      Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxYmVmNzNlOS0xZDY1LTQ5ZTUtYTg3ZC03ODg3NzljN2VmMmQiLCJpZCI6NDAzMjc5LCJpYXQiOjE3NzM0MzY1ODh9.j3g5qVlcZTNGARz8WAzyS_eY_hHjA19BlqeXLjIcA_4";
 
-  // Slow Earth rotation
-  viewer.clock.multiplier = 200; // time speed
-  viewer.scene.globe.enableLighting = true;
-</script>
+      const viewer = new Cesium.Viewer("globeContainer", {
+        timeline: false,
+        animation: false,
+        baseLayerPicker: true,
+        geocoder: false,
+        sceneModePicker: false,
+        navigationHelpButton: false,
+        homeButton: true
+      });
+
+      viewer.scene.camera.setView({
+        destination: Cesium.Cartesian3.fromDegrees(-3.0, 57.1, 350000.0)
+      });
+
+      const controller = viewer.scene.screenSpaceCameraController;
+      controller.minimumZoomDistance = 100000;
+      controller.maximumZoomDistance = 8000000;
+      controller.zoomEventTypes = [
+        Cesium.CameraEventType.WHEEL,
+        Cesium.CameraEventType.PINCH
+      ];
+      controller.inertiaZoom = 0.2;
+      controller._zoomFactor = 1.5;
+
+    } catch (e) {
+      const globeDiv = document.getElementById("globeContainer");
+      globeDiv.innerHTML = "3D globe placeholder — add a valid Cesium ion token.";
+      globeDiv.style.display = "flex";
+      globeDiv.style.alignItems = "center";
+      globeDiv.style.justifyContent = "center";
+      globeDiv.style.color = "#8b949e";
+    }
+  </script>
 
 </body>
 </
